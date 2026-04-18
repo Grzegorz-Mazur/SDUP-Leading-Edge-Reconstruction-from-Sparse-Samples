@@ -1,1 +1,1 @@
-# SDUP---Leading-Edge-Reconstruction-from-Sparse-Samples
+# SDUP-Leading-Edge-Reconstruction-from-Sparse-Samples
