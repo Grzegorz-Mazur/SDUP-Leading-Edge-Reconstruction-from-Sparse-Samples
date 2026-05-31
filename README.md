@@ -326,7 +326,7 @@ logarithmic  -> purple
 ```
 
 ### Sparse samples and reconstructed t0 for selected events
-<img src="docs/plots/sparse_samples_and_reconstructed_timing.png" width="700">
+<img src="leading_edge_python_model_v2/docs/plots/sparse_samples_and_reconstructed_timing.png" width="700">
 
 This plot presents selected PMT events together with their sparse input samples and reconstructed timing points.
 
@@ -336,7 +336,7 @@ The purpose of this plot is to provide a direct visual check of the reconstructi
 
 
 ### Method comparison over all events
-<img src="docs/plots/t0_estimation_comparison.png" width="700">
+<img src="leading_edge_python_model_v2/docs/plots/t0_estimation_comparison.png" width="700">
 
 This plot compares the estimated t0 values obtained by different reconstruction methods over the complete set of generated or loaded events.
 
@@ -348,7 +348,7 @@ This comparison is important because it shows not only the behavior of the algor
 
 
 ### RMSE comparison
-<img src="docs/plots/t0_reconstruction_RMSE_by_method.png" width="700">
+<img src="leading_edge_python_model_v2/docs/plots/t0_reconstruction_RMSE_by_method.png" width="700">
 
 This plot presents the RMSE value for each reconstruction method.
 
@@ -366,7 +366,7 @@ This plot provides a compact quantitative comparison between the implemented met
 
 
 ### Time-over-threshold comparison
-<img src="docs/plots/reference_PMT_time_over_threshold.png" width="700">
+<img src="leading_edge_python_model_v2/docs/plots/reference_PMT_time_over_threshold.png" width="700">
 
 This plot shows the reference PMT time-over-threshold behavior when reference PMT values are available.
 
