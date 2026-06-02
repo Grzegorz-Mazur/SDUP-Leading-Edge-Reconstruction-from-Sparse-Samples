@@ -111,10 +111,10 @@ The implemented reference pulse is:
 x = t - t_peak
 
 V(t, q) = q * R_tilde * exp(-0.5 * (x / sigma)^2),     x <= x_match
-V(t, q) = q * R_tilde / C * exp(-x / tau),              x >  x_match
+V(t, q) = q * R_tilde / C * exp(-x / tau),             x >  x_match
 
 x_match = sigma^2 / tau
-C       = exp(-0.5 * (sigma / tau)^2)
+C = exp(-0.5 * (sigma / tau)^2)
 ```
 
 This keeps the Gaussian section and the exponential tail continuous in value and derivative at the matching point.
@@ -197,19 +197,19 @@ python main.py --source pmt --save-example-csv --csv data/example_samples.csv --
 The CSV format is:
 
 ```text
-event_id,t1,A1,t2,A2,t3,A3,true_t0,true_amax,sigma_ns,tau_ns,threshold,charge,true_t_leading,true_t_trailing,true_tot
+event_id, t1, A1, t2, A2, t3, A3, true_t0, true_amax, sigma_ns, tau_ns, threshold, charge, true_t_leading, true_t_trailing, true_tot
 ```
 
 Required columns for external data:
 
 ```text
-event_id,t1,A1,t2,A2
+event_id, t1, A1, t2, A2
 ```
 
 Recommended columns:
 
 ```text
-t3,A3,true_t0,true_amax,sigma_ns,tau_ns,threshold
+t3, A3, true_t0, true_amax, sigma_ns, tau_ns, threshold
 ```
 
 When `sigma_ns`, `tau_ns`, and `threshold` are available, the plotted PMT reference curve is physically consistent with the input samples.
