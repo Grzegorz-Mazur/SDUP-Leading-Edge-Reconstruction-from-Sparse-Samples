@@ -1,11 +1,11 @@
 // =============================================================================
-// Leading Edge Reconstruction - AXI-Stream Extension (Phase 2)
+// Projekt: Leading Edge Reconstruction from Sparse PMT Samples
 //
-// This module wraps the leading_edge_core with AXI4-Stream master/slave
-// interfaces for DMA-based pipelined operation.
+// Modul:   leading_edge_axis - Faza 2, interfejs AXI4-Stream
+// Opis:    Otoczka potokowa z interfejsem AXI-Stream do transferow DMA
 //
-// Input stream (S_AXIS_IN):
-//   Each beat is a 256-bit packet:
+// Format strumienia wejsciowego (S_AXIS_IN):
+//   Pakiet 256-bit:
 //     [255:224] event_id   (32-bit)
 //     [223:192] t1         (Q16.16 signed)
 //     [191:160] a1         (Q16.16)
@@ -15,17 +15,17 @@
 //     [63:32]   a3         (Q16.16, optional, set 0 if not used)
 //     [31:0]    flags      [1:0]=mode_sel, [2]=has_t3
 //
-// Output stream (M_AXIS_OUT):
-//   Each beat is a 128-bit packet:
+// Format strumienia wyjsciowego (M_AXIS_OUT):
+//   Pakiet 128-bit:
 //     [127:96]  event_id   (echoed)
 //     [95:64]   t0_est     (Q16.16 signed)
 //     [63:32]   amax_est   (Q16.16)
 //     [31:1]    reserved
 //     [0]       overflow
 //
-// The pipeline is fully pipelined: a new input can be accepted every cycle.
-// Back-pressure is handled by holding S_AXIS_TREADY low when the output
-// FIFO is near-full (not implemented here - tie tready high for now).
+// Potok w pelni potokowy - nowe wejscie przyjmowane co cykl zegara.
+// Kontrola przeplywu: S_AXIS_TREADY=0 gdy bufor wyjsciowy pelny
+
 // =============================================================================
 
 `timescale 1ns / 1ps
@@ -36,20 +36,20 @@ module leading_edge_axis #(
     input  wire        aclk,
     input  wire        aresetn,
 
-    // Slave AXI-Stream (input)
+    // Wejscie AXI-Stream (slave)
     input  wire [255:0] S_AXIS_TDATA,
     input  wire         S_AXIS_TVALID,
     output wire         S_AXIS_TREADY,
     input  wire         S_AXIS_TLAST,
 
-    // Master AXI-Stream (output)
+    // Wyjscie AXI-Stream (master)
     output reg  [127:0] M_AXIS_TDATA,
     output reg          M_AXIS_TVALID,
     input  wire         M_AXIS_TREADY,
     output reg          M_AXIS_TLAST
 );
 
-    // Unpack input beat
+    // Rozpakowywanie pakietu wejsciowego
     wire [31:0] ev_id_in  = S_AXIS_TDATA[255:224];
     wire [31:0] t1_in     = S_AXIS_TDATA[223:192];
     wire [31:0] a1_in     = S_AXIS_TDATA[191:160];
@@ -60,12 +60,12 @@ module leading_edge_axis #(
     wire [1:0]  mode_in   = S_AXIS_TDATA[1:0];
     wire        last_in   = S_AXIS_TLAST;
 
-    // Accept input whenever core is not stalled
+    // Akceptacja wejscia gdy rdzen wolny
     assign S_AXIS_TREADY = aresetn;  // simplified: always ready
 
     wire start_core = S_AXIS_TVALID && S_AXIS_TREADY;
 
-    // Propagate event_id and last through pipeline delay
+    // Propagacja event_id przez opoznienie potoku
     reg [31:0] evid_pipe [0:PIPELINE_DEPTH-1];
     reg        last_pipe [0:PIPELINE_DEPTH-1];
     integer    i;
@@ -86,11 +86,11 @@ module leading_edge_axis #(
         end
     end
 
-    // Core instance
+    // Instancja rdzenia obliczeniowego
     wire signed [31:0] t0_est_w, amax_est_w;
     wire               core_valid, core_ovf;
 
-    // Fixed threshold for stream mode (can be made a register via AXI-Lite)
+    // Prog dyskryminatora - staly dla trybu strumieniowego
     localparam [31:0] DEFAULT_THRESH = 32'h00004CCD; // 0.3 in Q16.16
 
     leading_edge_core core_inst (
@@ -111,7 +111,7 @@ module leading_edge_axis #(
         .overflow  (core_ovf)
     );
 
-    // Pack output beat
+    // Pakowanie pakietu wyjsciowego
     always @(posedge aclk or negedge aresetn) begin
         if (!aresetn) begin
             M_AXIS_TDATA  <= 128'h0;

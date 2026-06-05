@@ -1,3 +1,8 @@
+// Projekt: Leading Edge Reconstruction from Sparse PMT Samples
+// Modul:   leading_edge_core
+// Opis:    Silnik obliczeniowy, format Q16.16, potok 6-stopniowy
+//          Metody: linear (00), exponential (01), logarithmic (10)
+
 `timescale 1ns / 1ps
 
 module leading_edge_core (
@@ -14,7 +19,7 @@ module leading_edge_core (
 
 localparam signed [31:0] LN2_Q = 32'sh0000B172;
 
-// ?? Funkcje Q16.16 ????????????????????????????????????????????????????????
+// Operacje arytmetyczne na liczbach staloprzecinkowych Q16.16
 function automatic signed [31:0] fp_div;
     input signed [31:0] n, d;
     reg signed [63:0] e;
@@ -30,7 +35,7 @@ function automatic signed [31:0] fp_mul;
     begin p = $signed(a) * $signed(b); fp_mul = p[47:16]; end
 endfunction
 
-// ?? ln(x) bez tablicy - case na 6 MSB frakcji znormalizowanej ?????????????
+// Aproksymacja ln(x) przez redukcje zakresu i LUT 64-segmentowy
 function automatic signed [31:0] do_ln;
     input [31:0] x;
     reg [4:0]          msb5;
@@ -107,11 +112,9 @@ function automatic signed [31:0] do_ln;
     end
 endfunction
 
-// =========================================================================
-// Pipeline rejestrowy
-// =========================================================================
+// Potok obliczeniowy - 6 etapow, latencja 6 cykli zegara
 
-// Stage 0: latch
+// Etap 0: zatrzask danych wejsciowych
 reg [1:0] s0_mode; reg s0_v;
 reg signed [31:0] s0_t1,s0_a1,s0_t2,s0_a2,s0_t3,s0_a3,s0_thr;
 
@@ -126,7 +129,7 @@ always @(posedge clk or negedge rst_n) begin
     end
 end
 
-// Stage 1: ró¿nice
+// Stage 1: rnice
 reg [1:0] s1_mode; reg s1_v;
 reg signed [31:0] s1_dt21,s1_da21,s1_dt32,s1_a1,s1_a2,s1_a3,s1_t1,s1_thr;
 
@@ -139,7 +142,7 @@ always @(posedge clk or negedge rst_n) begin
     end
 end
 
-// Stage 2: slope + ln - WEWN¥TRZ posedge clk (blocking =)
+// Etap 2: nachylenie (lin) i logarytmy (exp/log)
 reg [1:0] s2_mode; reg s2_v;
 reg signed [31:0] s2_slope,s2_ln1,s2_ln2,s2_ln3;
 reg signed [31:0] s2_dt21,s2_dt32,s2_da21,s2_a1,s2_a3,s2_t1,s2_thr;
@@ -158,7 +161,7 @@ always @(posedge clk or negedge rst_n) begin
     end
 end
 
-// Stage 3: pass-through
+// Etap 3: propagacja rejestrow
 reg [1:0] s3_mode; reg s3_v;
 reg signed [31:0] s3_slope,s3_ln1,s3_ln2,s3_ln3;
 reg signed [31:0] s3_dt21,s3_dt32,s3_a1,s3_a3,s3_t1,s3_thr;
@@ -174,7 +177,7 @@ always @(posedge clk or negedge rst_n) begin
     end
 end
 
-// Stage 4: tau, lnthr, LOG params - WEWN¥TRZ posedge clk (blocking =)
+// Etap 4: stala tau, ln(threshold), wspolczynniki paraboli
 reg [1:0] s4_mode; reg s4_v;
 reg signed [31:0] s4_tau,s4_lnthr,s4_ln1,s4_dt21;
 reg signed [31:0] s4_a1,s4_a3,s4_t1,s4_slope;
@@ -204,7 +207,7 @@ always @(posedge clk or negedge rst_n) begin
     end
 end
 
-// Stage 5: wynik per mode - WEWN¥TRZ posedge clk (blocking =)
+// Etap 5: obliczenie t0 dla wybranej metody
 reg [1:0] s5_mode; reg s5_v;
 reg signed [31:0] s5_t0, s5_amax;
 reg               s5_ovf;
@@ -251,7 +254,7 @@ always @(posedge clk or negedge rst_n) begin
     end
 end
 
-// Stage 6: output
+// Etap 6: rejestr wyjsciowy
 always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin t0_est<=0; amax_est<=0; valid<=0; overflow<=0; end
     else begin

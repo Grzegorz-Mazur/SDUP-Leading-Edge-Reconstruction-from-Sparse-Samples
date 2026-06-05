@@ -1,3 +1,8 @@
+// Projekt: Leading Edge Reconstruction from Sparse PMT Samples
+// Modul:   TB_leading_edge - testbench behawioralny
+// Opis:    Weryfikacja 15 przypadkow testowych (5 zdarzen x 3 metody)
+//          Referencje z modelu Python, format Q16.16
+
 `timescale 1ns / 1ps
 
 module TB_leading_edge;
@@ -49,7 +54,7 @@ module TB_leading_edge;
 
     real tv_t1[0:4],tv_a1[0:4],tv_t2[0:4],tv_a2[0:4],tv_t3[0:4],tv_a3[0:4];
 
-    // Referencje obliczone przez Python z identyczn¹ LUT 64-segmentow¹
+    // Referencje obliczone przez Python z identyczn LUT 64-segmentow
     real ref_lin[0:4], ref_exp[0:4], ref_log[0:4];
 
     integer pass_cnt,fail_cnt,ev,mode;
@@ -88,7 +93,7 @@ module TB_leading_edge;
                     axi_read(6'h24, t0_raw); t0=fq(t0_raw);
                     ref=(mode==0)?ref_lin[ev]:(mode==1)?ref_exp[ev]:ref_log[ev];
                     err=t0-ref; if(err<0.0) err=-err;
-                    // Tolerancje: LIN=0.10, EXP=0.55 (metoda niestabilna), LOG=0.15
+                    // Tolerancje: LIN=0.10ns, EXP=0.55ns (metoda wrazliwa na blad ln), LOG=0.15ns
                     if ((mode==0 && err<0.10)||(mode==1 && err<0.55)||(mode==2 && err<0.15)) begin
                         $display(" %0d  %-4s %10.4f %10.4f %8.4f  PASS",ev,(mode==0)?"LIN":(mode==1)?"EXP":"LOG",t0,ref,err);
                         pass_cnt=pass_cnt+1;
