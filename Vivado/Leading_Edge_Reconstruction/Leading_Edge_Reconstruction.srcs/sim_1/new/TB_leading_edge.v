@@ -1,8 +1,3 @@
-// =============================================================================
-// Testbench v8 - referencje z 64-segmentow¹ LUT ln
-// Tolerancje: LIN=0.10ns, EXP=0.55ns, LOG=0.15ns
-// Referencje obliczone przez symulacjê Python z identyczn¹ logik¹ LUT
-// =============================================================================
 `timescale 1ns / 1ps
 
 module TB_leading_edge;
