@@ -32,7 +32,7 @@ leading_edge_python_model_v2/
 │       ├── sparse_samples_and_reconstructed_timing.png
 │       ├── t0_estimation_comparison.png
 │       ├── t0_reconstruction_RMSE_by_method.png
-│       ├── reference_PMT_time_over_threshold.png
+│       └── reference_PMT_time_over_threshold.png
 └── src/
     └── leading_edge/
         ├── __init__.py
@@ -42,6 +42,22 @@ leading_edge_python_model_v2/
         ├── models.py
         ├── plotting.py
         └── pmt_model.py
+```
+
+The Vivado project is located separately:
+
+```text
+Vivado/Leading_Edge_Reconstruction/
+├── Leading_Edge_Reconstruction.xpr
+├── Leading_Edge_Reconstruction.srcs/
+│   ├── sources_1/
+│   │   └── new/
+│   │       ├── leading_edge_core.v
+│   │       └── leading_edge_axi_lite.v
+│   └── sim_1/
+│       └── new/
+│           └── TB_leading_edge.v
+└── Leading_Edge_Reconstruction.gen/
 ```
 
 ---
@@ -330,57 +346,131 @@ logarithmic  -> purple
 
 This plot presents selected PMT events together with their sparse input samples and reconstructed timing points.
 
-The sparse samples represent the limited set of amplitude measurements available on the rising edge of the PMT pulse. These are the input data used by the reconstruction algorithms. For each selected event, the plot shows where the individual methods estimate the pulse timing t0.
-
-The purpose of this plot is to provide a direct visual check of the reconstruction process. It allows verifying whether the estimated t0 values are placed in physically reasonable positions with respect to the sampled rising edge. Large deviations between the reconstructed markers and the expected pulse position may indicate that a given method is not well suited for that event or that the input samples are insufficient.
-
-
 ### Method comparison over all events
 <img src="leading_edge_python_model_v2/docs/plots/t0_estimation_comparison.png" width="700">
 
 This plot compares the estimated t0 values obtained by different reconstruction methods over the complete set of generated or loaded events.
-
-The reference value represents the expected timing obtained from the PMT model or from the input dataset. The reconstructed values are the results produced by the implemented interpolation methods.
-
-The plot is used to evaluate whether the reconstruction methods follow the reference timing consistently. If a method is accurate, its estimated values should stay close to the reference values over the full event range. Visible offsets, spreading, or outliers indicate reconstruction error.
-
-This comparison is important because it shows not only the behavior of the algorithms on individual examples, but also their stability over a larger dataset. It is therefore a useful step before selecting the method that should later be mapped to the FPGA implementation.
-
 
 ### RMSE comparison
 <img src="leading_edge_python_model_v2/docs/plots/t0_reconstruction_RMSE_by_method.png" width="700">
 
 This plot presents the RMSE value for each reconstruction method.
 
-RMSE stands for Root Mean Square Error and is calculated as:
-
 ```text
 RMSE = sqrt(mean((t0_estimated - t0_reference)^2))
 ```
-
-The RMSE value describes the average reconstruction error of a method, with larger errors penalized more strongly because the error is squared before averaging.
-
-A lower RMSE means that the method reconstructs t0 more accurately. A higher RMSE means that the estimated timing differs more strongly from the reference value.
-
-This plot provides a compact quantitative comparison between the implemented methods. It is especially useful for deciding which algorithm gives the best trade-off between accuracy and expected hardware complexity.
-
 
 ### Time-over-threshold comparison
 <img src="leading_edge_python_model_v2/docs/plots/reference_PMT_time_over_threshold.png" width="700">
 
 This plot shows the reference PMT time-over-threshold behavior when reference PMT values are available.
 
-Time-over-threshold describes the time interval during which the PMT pulse remains above the discriminator threshold. In the context of this project, it is related to the pulse amplitude and to the leading/trailing edge timing of the signal.
+---
 
-The purpose of this plot is to compare the generated or reconstructed timing behavior with the reference PMT model. It helps verify whether the implemented model produces physically meaningful timing values and whether the generated samples are consistent with the expected PMT pulse behavior.
+## 10. RTL Implementation (Vivado)
 
-This plot is mainly used as a model validation step. Before moving the algorithm to the FPGA implementation, the Python model should first produce results that agree with the assumed PMT reference behavior.
+### Fixed-Point Format
+
+All RTL signals use **Q16.16** fixed-point format:
+
+```text
+integer_value = real_value * 65536
+```
+
+Example: 18.284 ns → `0x00124849`
+
+### Module Overview
+
+| Module | Description |
+|--------|-------------|
+| `leading_edge_core.v` | Computational engine, 6-stage pipeline, all three methods |
+| `leading_edge_axi_lite.v` | AXI4-Lite wrapper (Phase 1), register-based access from ARM |
+| `leading_edge_axis.v` | AXI4-Stream wrapper (Phase 2), DMA-based pipelined operation |
+| `TB_leading_edge.v` | Behavioral testbench, 15 test cases (5 events × 3 methods) |
+
+### Register Map (AXI-Lite)
+
+| Offset | Name | R/W | Description |
+|--------|------|-----|-------------|
+| 0x00 | CTRL | W | `[0]`=start, `[2:1]`=mode_sel (00=lin, 01=exp, 10=log) |
+| 0x04 | STATUS | R | `[0]`=done, `[1]`=valid, `[2]`=overflow |
+| 0x08 | T1 | W | Time sample 1 [ns], Q16.16 |
+| 0x0C | A1 | W | Amplitude sample 1, Q16.16 |
+| 0x10 | T2 | W | Time sample 2 [ns], Q16.16 |
+| 0x14 | A2 | W | Amplitude sample 2, Q16.16 |
+| 0x18 | T3 | W | Time sample 3 [ns], Q16.16 (optional) |
+| 0x1C | A3 | W | Amplitude sample 3, Q16.16 (optional) |
+| 0x20 | THRESH | W | Discriminator threshold, Q16.16 |
+| 0x24 | T0_EST | R | Reconstructed t0 [ns], Q16.16 |
+| 0x28 | AMAX_EST | R | Estimated peak amplitude, Q16.16 |
+| 0x2C | EVENT_ID | R | Event identifier (read-only) |
+
+### Simulation Results
+
+After loading the RTL files into Vivado and running behavioral simulation:
+
+```text
+=== Leading Edge Reconstruction - FPGA vs Python (64-seg LUT) ===
+ Ev Mode   FPGA[ns]    Ref[ns]  Err[ns] Result
+-------------------------------------------------------------------
+ 0   LIN    12.1617    12.1617   0.0000  PASS
+ 0   EXP     4.5033     4.5033   0.0000  PASS
+ 0   LOG    18.2697    18.2697   0.0000  PASS
+ ...
+WYNIK: 15 PASS,  0 FAIL  (na 15 testow)
+```
+
+Tolerances applied: LIN = 0.10 ns, EXP = 0.55 ns, LOG = 0.15 ns.
+
+### Block Design (Phase 1, AXI-Lite)
+
+The Block Design connects the following IPs:
+
+```text
+Zynq UltraScale+ MPSoC  →  AXI Interconnect (1S/1M)  →  leading_edge_axi_lite_0
+```
+
+After connecting, run Validate Design (0 errors expected), assign addresses, generate bitstream and export hardware as `leading_edge.xsa`.
 
 ---
 
-## 10. Typical Development Flow
+## 11. PYNQ Access
 
-Recommended project workflow:
+Load the overlay and access the coprocessor from a Jupyter notebook:
+
+```python
+from pynq import Overlay
+
+ol = Overlay("leading_edge.xsa")
+ip = ol.leading_edge_axi_lite_0
+
+SCALE = 65536
+
+def q16(v):  return int(round(v * SCALE)) & 0xFFFFFFFF
+def fq16(v):
+    s = int(v) & 0xFFFFFFFF
+    if s & 0x80000000: s -= 0x100000000
+    return s / SCALE
+
+ip.write(0x20, q16(0.3))       # threshold
+ip.write(0x08, q16(13.44))     # t1
+ip.write(0x0C, q16(1.25))      # a1
+ip.write(0x10, q16(15.90))     # t2
+ip.write(0x14, q16(3.65))      # a2
+ip.write(0x18, q16(18.01))     # t3
+ip.write(0x1C, q16(5.07))      # a3
+
+ip.write(0x00, (2 << 1) | 1)   # start, mode=logarithmic
+
+while not (ip.read(0x04) & 1):
+    pass
+
+print(f"t0 = {fq16(ip.read(0x24)):.4f} ns")
+```
+
+---
+
+## 12. Typical Development Flow
 
 1. Generate PMT events in Python.
 2. Run all interpolation methods.
@@ -392,7 +482,7 @@ Recommended project workflow:
 
 ---
 
-## 11. Notes
+## 13. Notes
 
 This model is not a complete detector simulation. It intentionally focuses on the pulse-shape and sparse-sample reconstruction problem needed for FPGA implementation.
 
@@ -403,4 +493,3 @@ Not included in this version:
 - thresholdband model,
 - saturation at very high charge,
 - full statistical time-over-threshold distribution fitting.
-
