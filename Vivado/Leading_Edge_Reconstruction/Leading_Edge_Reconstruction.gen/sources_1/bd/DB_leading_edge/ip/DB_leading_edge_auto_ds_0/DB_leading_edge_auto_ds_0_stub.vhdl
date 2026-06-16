@@ -1,10 +1,10 @@
 -- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2022.1 (win64) Build 3526262 Mon Apr 18 15:48:16 MDT 2022
--- Date        : Wed Jun 10 07:19:40 2026
+-- Date        : Wed Jun 10 07:19:38 2026
 -- Host        : DESKTOP-7O2LSG9 running 64-bit major release  (build 9200)
--- Command     : write_vhdl -force -mode synth_stub
---               c:/Users/grzeg/Desktop/SDUP/Vivado/Leading_Edge_Reconstruction/Leading_Edge_Reconstruction.gen/sources_1/bd/DB_leading_edge/ip/DB_leading_edge_auto_ds_0/DB_leading_edge_auto_ds_0_stub.vhdl
+-- Command     : write_vhdl -force -mode synth_stub -rename_top DB_leading_edge_auto_ds_0 -prefix
+--               DB_leading_edge_auto_ds_0_ DB_leading_edge_auto_ds_0_stub.vhdl
 -- Design      : DB_leading_edge_auto_ds_0
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xczu7ev-ffvc1156-2-e

@@ -1614,9 +1614,9 @@
         "inst_hier_path": "rst_ps8_0_99M"
       },
       "myip_leading_edge_ax_0": {
-        "vlnv": "xilinx.com:user:myip_leading_edge_axi_lite:1.0",
-        "xci_name": "DB_leading_edge_myip_leading_edge_ax_0_0",
-        "xci_path": "ip\\DB_leading_edge_myip_leading_edge_ax_0_0_1\\DB_leading_edge_myip_leading_edge_ax_0_0.xci",
+        "vlnv": "xilinx.com:user:myip_leading_edge_axi_lite:1.1",
+        "xci_name": "DB_leading_edge_myip_leading_edge_ax_0_1",
+        "xci_path": "ip\\DB_leading_edge_myip_leading_edge_ax_0_1\\DB_leading_edge_myip_leading_edge_ax_0_1.xci",
         "inst_hier_path": "myip_leading_edge_ax_0"
       }
     },

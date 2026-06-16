@@ -1,11 +1,11 @@
 // Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2022.1 (win64) Build 3526262 Mon Apr 18 15:48:16 MDT 2022
-// Date        : Wed Jun 10 07:18:27 2026
+// Date        : Wed Jun 10 08:05:33 2026
 // Host        : DESKTOP-7O2LSG9 running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode synth_stub
-//               c:/Users/grzeg/Desktop/SDUP/Vivado/Leading_Edge_Reconstruction/Leading_Edge_Reconstruction.gen/sources_1/bd/DB_leading_edge/ip/DB_leading_edge_myip_leading_edge_ax_0_0_1/DB_leading_edge_myip_leading_edge_ax_0_0_stub.v
-// Design      : DB_leading_edge_myip_leading_edge_ax_0_0
+//               c:/Users/grzeg/Desktop/SDUP/Vivado/Leading_Edge_Reconstruction/Leading_Edge_Reconstruction.gen/sources_1/bd/DB_leading_edge/ip/DB_leading_edge_myip_leading_edge_ax_0_1/DB_leading_edge_myip_leading_edge_ax_0_1_stub.v
+// Design      : DB_leading_edge_myip_leading_edge_ax_0_1
 // Purpose     : Stub declaration of top-level module interface
 // Device      : xczu7ev-ffvc1156-2-e
 // --------------------------------------------------------------------------------
@@ -13,8 +13,8 @@
 // This empty module with port declaration file causes synthesis tools to infer a black box for IP.
 // The synthesis directives are for Synopsys Synplify support to prevent IO buffer insertion.
 // Please paste the declaration into a Verilog source file or add the file as an additional source.
-(* X_CORE_INFO = "myip_leading_edge_axi_lite_v1_0,Vivado 2022.1" *)
-module DB_leading_edge_myip_leading_edge_ax_0_0(s00_axi_aclk, s00_axi_aresetn, 
+(* X_CORE_INFO = "myip_leading_edge_axi_lite_v1_1,Vivado 2022.1" *)
+module DB_leading_edge_myip_leading_edge_ax_0_1(s00_axi_aclk, s00_axi_aresetn, 
   s00_axi_awaddr, s00_axi_awprot, s00_axi_awvalid, s00_axi_awready, s00_axi_wdata, 
   s00_axi_wstrb, s00_axi_wvalid, s00_axi_wready, s00_axi_bresp, s00_axi_bvalid, 
   s00_axi_bready, s00_axi_araddr, s00_axi_arprot, s00_axi_arvalid, s00_axi_arready, 

@@ -1,11 +1,11 @@
 -- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2022.1 (win64) Build 3526262 Mon Apr 18 15:48:16 MDT 2022
--- Date        : Wed Jun 10 07:18:27 2026
+-- Date        : Wed Jun 10 08:05:33 2026
 -- Host        : DESKTOP-7O2LSG9 running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
---               c:/Users/grzeg/Desktop/SDUP/Vivado/Leading_Edge_Reconstruction/Leading_Edge_Reconstruction.gen/sources_1/bd/DB_leading_edge/ip/DB_leading_edge_myip_leading_edge_ax_0_0_1/DB_leading_edge_myip_leading_edge_ax_0_0_sim_netlist.vhdl
--- Design      : DB_leading_edge_myip_leading_edge_ax_0_0
+--               c:/Users/grzeg/Desktop/SDUP/Vivado/Leading_Edge_Reconstruction/Leading_Edge_Reconstruction.gen/sources_1/bd/DB_leading_edge/ip/DB_leading_edge_myip_leading_edge_ax_0_1/DB_leading_edge_myip_leading_edge_ax_0_1_sim_netlist.vhdl
+-- Design      : DB_leading_edge_myip_leading_edge_ax_0_1
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
 -- Device      : xczu7ev-ffvc1156-2-e
@@ -14,7 +14,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
-entity DB_leading_edge_myip_leading_edge_ax_0_0_myip_leading_edge_axi_lite_v1_0_S00_AXI is
+entity DB_leading_edge_myip_leading_edge_ax_0_1_myip_leading_edge_axi_lite_v1_1_S00_AXI is
   port (
     S_AXI_WREADY : out STD_LOGIC;
     S_AXI_AWREADY : out STD_LOGIC;
@@ -35,10 +35,10 @@ entity DB_leading_edge_myip_leading_edge_ax_0_0_myip_leading_edge_axi_lite_v1_0_
     s00_axi_rready : in STD_LOGIC
   );
   attribute ORIG_REF_NAME : string;
-  attribute ORIG_REF_NAME of DB_leading_edge_myip_leading_edge_ax_0_0_myip_leading_edge_axi_lite_v1_0_S00_AXI : entity is "myip_leading_edge_axi_lite_v1_0_S00_AXI";
-end DB_leading_edge_myip_leading_edge_ax_0_0_myip_leading_edge_axi_lite_v1_0_S00_AXI;
+  attribute ORIG_REF_NAME of DB_leading_edge_myip_leading_edge_ax_0_1_myip_leading_edge_axi_lite_v1_1_S00_AXI : entity is "myip_leading_edge_axi_lite_v1_1_S00_AXI";
+end DB_leading_edge_myip_leading_edge_ax_0_1_myip_leading_edge_axi_lite_v1_1_S00_AXI;
 
-architecture STRUCTURE of DB_leading_edge_myip_leading_edge_ax_0_0_myip_leading_edge_axi_lite_v1_0_S00_AXI is
+architecture STRUCTURE of DB_leading_edge_myip_leading_edge_ax_0_1_myip_leading_edge_axi_lite_v1_1_S00_AXI is
   signal \^s_axi_arready\ : STD_LOGIC;
   signal \^s_axi_awready\ : STD_LOGIC;
   signal \^s_axi_wready\ : STD_LOGIC;
@@ -4774,7 +4774,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
-entity DB_leading_edge_myip_leading_edge_ax_0_0_myip_leading_edge_axi_lite_v1_0 is
+entity DB_leading_edge_myip_leading_edge_ax_0_1_myip_leading_edge_axi_lite_v1_1 is
   port (
     S_AXI_WREADY : out STD_LOGIC;
     S_AXI_AWREADY : out STD_LOGIC;
@@ -4795,12 +4795,12 @@ entity DB_leading_edge_myip_leading_edge_ax_0_0_myip_leading_edge_axi_lite_v1_0 
     s00_axi_rready : in STD_LOGIC
   );
   attribute ORIG_REF_NAME : string;
-  attribute ORIG_REF_NAME of DB_leading_edge_myip_leading_edge_ax_0_0_myip_leading_edge_axi_lite_v1_0 : entity is "myip_leading_edge_axi_lite_v1_0";
-end DB_leading_edge_myip_leading_edge_ax_0_0_myip_leading_edge_axi_lite_v1_0;
+  attribute ORIG_REF_NAME of DB_leading_edge_myip_leading_edge_ax_0_1_myip_leading_edge_axi_lite_v1_1 : entity is "myip_leading_edge_axi_lite_v1_1";
+end DB_leading_edge_myip_leading_edge_ax_0_1_myip_leading_edge_axi_lite_v1_1;
 
-architecture STRUCTURE of DB_leading_edge_myip_leading_edge_ax_0_0_myip_leading_edge_axi_lite_v1_0 is
+architecture STRUCTURE of DB_leading_edge_myip_leading_edge_ax_0_1_myip_leading_edge_axi_lite_v1_1 is
 begin
-myip_leading_edge_axi_lite_v1_0_S00_AXI_inst: entity work.DB_leading_edge_myip_leading_edge_ax_0_0_myip_leading_edge_axi_lite_v1_0_S00_AXI
+myip_leading_edge_axi_lite_v1_1_S00_AXI_inst: entity work.DB_leading_edge_myip_leading_edge_ax_0_1_myip_leading_edge_axi_lite_v1_1_S00_AXI
      port map (
       S_AXI_ARREADY => S_AXI_ARREADY,
       S_AXI_AWREADY => S_AXI_AWREADY,
@@ -4825,7 +4825,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
-entity DB_leading_edge_myip_leading_edge_ax_0_0 is
+entity DB_leading_edge_myip_leading_edge_ax_0_1 is
   port (
     s00_axi_aclk : in STD_LOGIC;
     s00_axi_aresetn : in STD_LOGIC;
@@ -4850,16 +4850,16 @@ entity DB_leading_edge_myip_leading_edge_ax_0_0 is
     s00_axi_rready : in STD_LOGIC
   );
   attribute NotValidForBitStream : boolean;
-  attribute NotValidForBitStream of DB_leading_edge_myip_leading_edge_ax_0_0 : entity is true;
+  attribute NotValidForBitStream of DB_leading_edge_myip_leading_edge_ax_0_1 : entity is true;
   attribute CHECK_LICENSE_TYPE : string;
-  attribute CHECK_LICENSE_TYPE of DB_leading_edge_myip_leading_edge_ax_0_0 : entity is "DB_leading_edge_myip_leading_edge_ax_0_0,myip_leading_edge_axi_lite_v1_0,{}";
+  attribute CHECK_LICENSE_TYPE of DB_leading_edge_myip_leading_edge_ax_0_1 : entity is "DB_leading_edge_myip_leading_edge_ax_0_1,myip_leading_edge_axi_lite_v1_1,{}";
   attribute DowngradeIPIdentifiedWarnings : string;
-  attribute DowngradeIPIdentifiedWarnings of DB_leading_edge_myip_leading_edge_ax_0_0 : entity is "yes";
+  attribute DowngradeIPIdentifiedWarnings of DB_leading_edge_myip_leading_edge_ax_0_1 : entity is "yes";
   attribute X_CORE_INFO : string;
-  attribute X_CORE_INFO of DB_leading_edge_myip_leading_edge_ax_0_0 : entity is "myip_leading_edge_axi_lite_v1_0,Vivado 2022.1";
-end DB_leading_edge_myip_leading_edge_ax_0_0;
+  attribute X_CORE_INFO of DB_leading_edge_myip_leading_edge_ax_0_1 : entity is "myip_leading_edge_axi_lite_v1_1,Vivado 2022.1";
+end DB_leading_edge_myip_leading_edge_ax_0_1;
 
-architecture STRUCTURE of DB_leading_edge_myip_leading_edge_ax_0_0 is
+architecture STRUCTURE of DB_leading_edge_myip_leading_edge_ax_0_1 is
   signal \<const0>\ : STD_LOGIC;
   attribute X_INTERFACE_INFO : string;
   attribute X_INTERFACE_INFO of s00_axi_aclk : signal is "xilinx.com:signal:clock:1.0 S00_AXI_CLK CLK";
@@ -4896,7 +4896,7 @@ GND: unisim.vcomponents.GND
      port map (
       G => \<const0>\
     );
-inst: entity work.DB_leading_edge_myip_leading_edge_ax_0_0_myip_leading_edge_axi_lite_v1_0
+inst: entity work.DB_leading_edge_myip_leading_edge_ax_0_1_myip_leading_edge_axi_lite_v1_1
      port map (
       S_AXI_ARREADY => s00_axi_arready,
       S_AXI_AWREADY => s00_axi_awready,

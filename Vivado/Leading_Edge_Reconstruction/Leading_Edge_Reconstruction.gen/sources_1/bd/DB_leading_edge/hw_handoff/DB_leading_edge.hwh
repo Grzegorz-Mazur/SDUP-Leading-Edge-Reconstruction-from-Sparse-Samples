@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Wed Jun 10 07:14:08 2026" VIVADOVERSION="2022.1">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Wed Jun 10 08:06:33 2026" VIVADOVERSION="2022.1">
 
   <SYSTEMINFO ARCH="zynquplus" BOARD="xilinx.com:zcu106:part0:2.6" DEVICE="xczu7ev" NAME="DB_leading_edge" PACKAGE="ffvc1156" SPEEDGRADE="-2"/>
 
@@ -953,7 +953,7 @@
         </BUSINTERFACE>
       </BUSINTERFACES>
     </MODULE>
-    <MODULE COREREVISION="3" FULLNAME="/myip_leading_edge_ax_0" HWVERSION="1.0" INSTANCE="myip_leading_edge_ax_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="myip_leading_edge_axi_lite" VLNV="xilinx.com:user:myip_leading_edge_axi_lite:1.0">
+    <MODULE COREREVISION="2" FULLNAME="/myip_leading_edge_ax_0" HWVERSION="1.1" INSTANCE="myip_leading_edge_ax_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="myip_leading_edge_axi_lite" VLNV="xilinx.com:user:myip_leading_edge_axi_lite:1.1">
       <DOCUMENTS/>
       <ADDRESSBLOCKS>
         <ADDRESSBLOCK ACCESS="" INTERFACE="S00_AXI" NAME="S00_AXI_reg" RANGE="4096" USAGE="register"/>
@@ -961,7 +961,7 @@
       <PARAMETERS>
         <PARAMETER NAME="C_S00_AXI_DATA_WIDTH" VALUE="32"/>
         <PARAMETER NAME="C_S00_AXI_ADDR_WIDTH" VALUE="6"/>
-        <PARAMETER NAME="Component_Name" VALUE="DB_leading_edge_myip_leading_edge_ax_0_0"/>
+        <PARAMETER NAME="Component_Name" VALUE="DB_leading_edge_myip_leading_edge_ax_0_1"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
         <PARAMETER NAME="C_S00_AXI_BASEADDR" VALUE="0xA0000000"/>
         <PARAMETER NAME="C_S00_AXI_HIGHADDR" VALUE="0xA000FFFF"/>

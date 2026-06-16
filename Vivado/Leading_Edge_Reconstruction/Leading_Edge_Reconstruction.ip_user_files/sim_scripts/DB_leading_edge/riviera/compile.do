@@ -101,10 +101,10 @@ vcom -work xil_defaultlib -93 \
 "../../../bd/DB_leading_edge/ip/DB_leading_edge_rst_ps8_0_99M_0/sim/DB_leading_edge_rst_ps8_0_99M_0.vhd" \
 
 vlog -work xil_defaultlib  -v2k5 "+incdir+../../../../Leading_Edge_Reconstruction.gen/sources_1/bd/DB_leading_edge/ipshared/ec67/hdl" "+incdir+../../../../Leading_Edge_Reconstruction.gen/sources_1/bd/DB_leading_edge/ipshared/8cdf/hdl" "+incdir+E:/Xilinx/Vivado/2022.1/data/xilinx_vip/include" \
-"../../../bd/DB_leading_edge/ipshared/28de/hdl/leading_edge_core.v" \
-"../../../bd/DB_leading_edge/ipshared/28de/hdl/myip_leading_edge_axi_lite_v1_0_S00_AXI.v" \
-"../../../bd/DB_leading_edge/ipshared/28de/hdl/myip_leading_edge_axi_lite_v1_0.v" \
-"../../../bd/DB_leading_edge/ip/DB_leading_edge_myip_leading_edge_ax_0_0_1/sim/DB_leading_edge_myip_leading_edge_ax_0_0.v" \
+"../../../bd/DB_leading_edge/ipshared/e079/hdl/leading_edge_core.v" \
+"../../../bd/DB_leading_edge/ipshared/e079/hdl/myip_leading_edge_axi_lite_v1_1_S00_AXI.v" \
+"../../../bd/DB_leading_edge/ipshared/e079/hdl/myip_leading_edge_axi_lite_v1_1.v" \
+"../../../bd/DB_leading_edge/ip/DB_leading_edge_myip_leading_edge_ax_0_1/sim/DB_leading_edge_myip_leading_edge_ax_0_1.v" \
 
 vlog -work axi_protocol_converter_v2_1_26  -v2k5 "+incdir+../../../../Leading_Edge_Reconstruction.gen/sources_1/bd/DB_leading_edge/ipshared/ec67/hdl" "+incdir+../../../../Leading_Edge_Reconstruction.gen/sources_1/bd/DB_leading_edge/ipshared/8cdf/hdl" "+incdir+E:/Xilinx/Vivado/2022.1/data/xilinx_vip/include" \
 "../../../../Leading_Edge_Reconstruction.gen/sources_1/bd/DB_leading_edge/ipshared/90c8/hdl/axi_protocol_converter_v2_1_vl_rfs.v" \

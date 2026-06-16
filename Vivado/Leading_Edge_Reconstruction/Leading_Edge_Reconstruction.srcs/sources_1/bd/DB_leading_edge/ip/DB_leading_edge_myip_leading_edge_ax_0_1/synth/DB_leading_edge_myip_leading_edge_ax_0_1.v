@@ -47,14 +47,14 @@
 // DO NOT MODIFY THIS FILE.
 
 
-// IP VLNV: xilinx.com:user:myip_leading_edge_axi_lite:1.0
-// IP Revision: 3
+// IP VLNV: xilinx.com:user:myip_leading_edge_axi_lite:1.1
+// IP Revision: 2
 
-(* X_CORE_INFO = "myip_leading_edge_axi_lite_v1_0,Vivado 2022.1" *)
-(* CHECK_LICENSE_TYPE = "DB_leading_edge_myip_leading_edge_ax_0_0,myip_leading_edge_axi_lite_v1_0,{}" *)
-(* CORE_GENERATION_INFO = "DB_leading_edge_myip_leading_edge_ax_0_0,myip_leading_edge_axi_lite_v1_0,{x_ipProduct=Vivado 2022.1,x_ipVendor=xilinx.com,x_ipLibrary=user,x_ipName=myip_leading_edge_axi_lite,x_ipVersion=1.0,x_ipCoreRevision=3,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_S00_AXI_DATA_WIDTH=32,C_S00_AXI_ADDR_WIDTH=6}" *)
+(* X_CORE_INFO = "myip_leading_edge_axi_lite_v1_1,Vivado 2022.1" *)
+(* CHECK_LICENSE_TYPE = "DB_leading_edge_myip_leading_edge_ax_0_1,myip_leading_edge_axi_lite_v1_1,{}" *)
+(* CORE_GENERATION_INFO = "DB_leading_edge_myip_leading_edge_ax_0_1,myip_leading_edge_axi_lite_v1_1,{x_ipProduct=Vivado 2022.1,x_ipVendor=xilinx.com,x_ipLibrary=user,x_ipName=myip_leading_edge_axi_lite,x_ipVersion=1.1,x_ipCoreRevision=2,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_S00_AXI_DATA_WIDTH=32,C_S00_AXI_ADDR_WIDTH=6}" *)
 (* DowngradeIPIdentifiedWarnings = "yes" *)
-module DB_leading_edge_myip_leading_edge_ax_0_0 (
+module DB_leading_edge_myip_leading_edge_ax_0_1 (
   s00_axi_aclk,
   s00_axi_aresetn,
   s00_axi_awaddr,
@@ -125,7 +125,7 @@ a_ps_e_0_0_pl_clk0, NUM_READ_THREADS 1, NUM_WRITE_THREADS 1, RUSER_BITS_PER_BYTE
 (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 S00_AXI RREADY" *)
 input wire s00_axi_rready;
 
-  myip_leading_edge_axi_lite_v1_0 #(
+  myip_leading_edge_axi_lite_v1_1 #(
     .C_S00_AXI_DATA_WIDTH(32),  // Width of S_AXI data bus
     .C_S00_AXI_ADDR_WIDTH(6)  // Width of S_AXI address bus
   ) inst (

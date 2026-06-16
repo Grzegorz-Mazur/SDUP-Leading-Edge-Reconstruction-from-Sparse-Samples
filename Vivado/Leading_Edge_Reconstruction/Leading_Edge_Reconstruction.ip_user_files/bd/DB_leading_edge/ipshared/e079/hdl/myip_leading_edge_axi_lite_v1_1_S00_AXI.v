@@ -1,7 +1,7 @@
 
 `timescale 1 ns / 1 ps
 
-	module myip_leading_edge_axi_lite_v1_0_S00_AXI #
+	module myip_leading_edge_axi_lite_v1_1_S00_AXI #
 	(
 		// Users to add parameters here
 
@@ -567,5 +567,6 @@
 	end
 
 	// User logic ends
+
 
 	endmodule
