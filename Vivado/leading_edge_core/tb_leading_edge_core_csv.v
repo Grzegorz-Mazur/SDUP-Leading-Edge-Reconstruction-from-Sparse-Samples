@@ -1,10 +1,52 @@
 `timescale 1 ns / 1 ps
 
+// -----------------------------------------------------------------------------
+// Testbench: leading_edge_core + CSV data set
+// -----------------------------------------------------------------------------
+// Cel:
+//   1. Wczytac probki PMT z pliku example_samples.csv wygenerowanego przez model
+//      Pythonowy.
+//   2. Dla kazdego eventu uruchomic sam modul leading_edge_core
+//   3. Sprawdzic trzy metody rekonstrukcji:
+//        method_id = 0 -> linear
+//        method_id = 1 -> exponential
+//        method_id = 2 -> logarithmic / Gaussian-domain
+//   4. Zapisac wyniki RTL, blad i latencje do leading_edge_core_results.csv.
+//
+// Uwaga:
+//   Wszystkie wejscia/wyjscia RTL sa w formacie fixed-point Q16.16.
+//   W testbenchu wartosci z CSV sa typu real i dopiero przed podaniem do DUT
+//   sa konwertowane przez funkcje q16().
+// -----------------------------------------------------------------------------
+
 module tb_leading_edge_core_csv;
+
+    // -------------------------------------------------------------------------
+    // Konfiguracja testu
+    // -------------------------------------------------------------------------
+
+    localparam integer CLOCK_PERIOD_NS = 10;   // 100 MHz
+    localparam integer RESET_CYCLES    = 10;
+    localparam integer START_DELAY_CYCLES = 5;
+    localparam integer VALID_TIMEOUT_CYCLES = 100;
+
+    localparam integer Q16_SCALE = 65536;
+
+    // Plik wejsciowy z modelu Pythonowego oraz plik wynikowy z symulacji.
+    // Sciezka input CSV jest absolutna, zeby Vivado znalazlo plik niezaleznie
+    // od katalogu roboczego symulacji.
+    localparam [8*160-1:0] INPUT_CSV_PATH =
+        "C:/Users/grzeg/Desktop/SDUP/leading_edge_python_model_v2/data/example_samples.csv";
+    localparam [8*64-1:0] OUTPUT_CSV_PATH =
+        "leading_edge_core_results.csv";
 
     localparam integer MODE_LINEAR = 0;
     localparam integer MODE_EXP    = 1;
     localparam integer MODE_LOG    = 2;
+
+    // -------------------------------------------------------------------------
+    // Sygnaly DUT
+    // -------------------------------------------------------------------------
 
     reg clk;
     reg rst_n;
@@ -23,9 +65,14 @@ module tb_leading_edge_core_csv;
     wire valid;
     wire overflow;
 
+    // -------------------------------------------------------------------------
+    // Zmienne pomocnicze do plikow CSV i statystyk testu
+    // -------------------------------------------------------------------------
+
     integer csv_fd;
     integer input_fd;
     integer scan_count;
+    integer csv_event_id;
     integer event_count;
     integer pass_count;
     integer fail_count;
@@ -46,10 +93,18 @@ module tb_leading_edge_core_csv;
     real csv_true_t_trailing;
     real csv_true_tot;
 
+    // -------------------------------------------------------------------------
+    // Zegar
+    // -------------------------------------------------------------------------
+
     initial begin
         clk = 1'b0;
-        forever #5 clk = ~clk; // 100 MHz
+        forever #(CLOCK_PERIOD_NS / 2) clk = ~clk;
     end
+
+    // -------------------------------------------------------------------------
+    // Testowany modul: tylko leading_edge_core, bez AXI-Lite i bez AXI-Stream
+    // -------------------------------------------------------------------------
 
     leading_edge_core dut (
         .clk       (clk),
@@ -69,11 +124,15 @@ module tb_leading_edge_core_csv;
         .overflow  (overflow)
     );
 
+    // -------------------------------------------------------------------------
+    // Konwersje Q16.16 <-> real
+    // -------------------------------------------------------------------------
+
     function signed [31:0] q16;
         input real value;
         real scaled;
         begin
-            scaled = value * 65536.0;
+            scaled = value * Q16_SCALE;
             if (scaled >= 0.0)
                 q16 = $rtoi(scaled + 0.5);
             else
@@ -84,7 +143,7 @@ module tb_leading_edge_core_csv;
     function real fq16;
         input signed [31:0] value;
         begin
-            fq16 = $itor(value) / 65536.0;
+            fq16 = $itor(value) / Q16_SCALE;
         end
     endfunction
 
@@ -94,6 +153,18 @@ module tb_leading_edge_core_csv;
             abs_real = (value < 0.0) ? -value : value;
         end
     endfunction
+
+    // -------------------------------------------------------------------------
+    // Referencja liczona w testbenchu
+    // -------------------------------------------------------------------------
+    // To nie jest drugi RTL. Tu liczymy oczekiwany wynik na typach real, z tych
+    // samych wzorow matematycznych, zeby porownac go z wersja fixed-point w DUT.
+    //
+    // expected_t0:
+    //   mode 0: wzor liniowy z dwoch probek
+    //   mode 1: aproksymacja eksponencjalna w domenie logarytmicznej
+    //   mode 2: dopasowanie paraboli do ln(A), czyli model Gaussian-domain
+    // -------------------------------------------------------------------------
 
     function real expected_t0;
         input integer mode;
@@ -142,6 +213,7 @@ module tb_leading_edge_core_csv;
         end
     endfunction
 
+    // Tolerancje dobrane do uproszczen fixed-point oraz LUT logarytmu w RTL.
     function real tolerance_ns;
         input integer mode;
         begin
@@ -154,7 +226,18 @@ module tb_leading_edge_core_csv;
         end
     endfunction
 
-    task run_case;
+    // -------------------------------------------------------------------------
+    // Jeden test = jeden event CSV + jedna metoda rekonstrukcji
+    // -------------------------------------------------------------------------
+    // Kroki:
+    //   1. Ustaw wejscia DUT na negedge, zeby byly stabilne przed posedge.
+    //   2. Wystaw start na jeden cykl.
+    //   3. Czekaj na valid albo timeout.
+    //   4. Przelicz wynik Q16.16 na ns.
+    //   5. Zapisz jeden wiersz do CSV wynikowego.
+    // -------------------------------------------------------------------------
+
+    task run_single_method_case;
         input integer event_id;
         input integer mode;
         input real rt1;
@@ -188,7 +271,7 @@ module tb_leading_edge_core_csv;
             start     = 1'b1;
 
             @(posedge clk);
-            start_cycle = $time / 10;
+            start_cycle = $time / CLOCK_PERIOD_NS;
 
             @(negedge clk);
             start = 1'b0;
@@ -196,12 +279,12 @@ module tb_leading_edge_core_csv;
             wait_cycles = 0;
             @(posedge clk);
             #1;
-            while (!valid && wait_cycles < 100) begin
+            while (!valid && wait_cycles < VALID_TIMEOUT_CYCLES) begin
                 @(posedge clk);
                 #1;
                 wait_cycles = wait_cycles + 1;
             end
-            valid_cycle = $time / 10;
+            valid_cycle = $time / CLOCK_PERIOD_NS;
 
             expected_ns = expected_t0(mode, rt1, ra1, rt2, ra2, rt3, ra3, rthreshold);
             estimated_ns = fq16(t0_est);
@@ -225,7 +308,8 @@ module tb_leading_edge_core_csv;
         end
     endtask
 
-    task run_event_all_modes;
+    // Jeden wiersz wejsciowego CSV jest testowany we wszystkich trzech trybach.
+    task run_event_all_methods;
         input integer event_id;
         input real rt1;
         input real ra1;
@@ -236,13 +320,18 @@ module tb_leading_edge_core_csv;
         input real true_t0;
         input real rthreshold;
         begin
-            run_case(event_id, MODE_LINEAR, rt1, ra1, rt2, ra2, rt3, ra3, true_t0, rthreshold);
-            run_case(event_id, MODE_EXP,    rt1, ra1, rt2, ra2, rt3, ra3, true_t0, rthreshold);
-            run_case(event_id, MODE_LOG,    rt1, ra1, rt2, ra2, rt3, ra3, true_t0, rthreshold);
+            run_single_method_case(event_id, MODE_LINEAR, rt1, ra1, rt2, ra2, rt3, ra3, true_t0, rthreshold);
+            run_single_method_case(event_id, MODE_EXP,    rt1, ra1, rt2, ra2, rt3, ra3, true_t0, rthreshold);
+            run_single_method_case(event_id, MODE_LOG,    rt1, ra1, rt2, ra2, rt3, ra3, true_t0, rthreshold);
         end
     endtask
 
+    // -------------------------------------------------------------------------
+    // Glowny scenariusz symulacji
+    // -------------------------------------------------------------------------
+
     initial begin
+        // Stan poczatkowy wejsc DUT.
         start = 1'b0;
         mode_sel = 2'd0;
         t1 = 32'sd0;
@@ -255,33 +344,43 @@ module tb_leading_edge_core_csv;
         pass_count = 0;
         fail_count = 0;
         event_count = 0;
+        csv_event_id = 0;
 
-        csv_fd = $fopen("leading_edge_core_results.csv", "w");
+        // Plik wynikowy powstaje w katalogu roboczym symulacji Vivado:
+        // <projekt>.sim/sim_1/behav/xsim/
+        csv_fd = $fopen(OUTPUT_CSV_PATH, "w");
         if (csv_fd == 0) begin
             $display("ERROR: cannot open leading_edge_core_results.csv");
             $finish;
         end
 
-        input_fd = $fopen("C:/Users/grzeg/Desktop/SDUP/leading_edge_python_model_v2/data/example_samples.csv", "r");
+        input_fd = $fopen(INPUT_CSV_PATH, "r");
         if (input_fd == 0) begin
             $display("ERROR: cannot open input CSV");
             $finish;
         end
 
+        // Pierwszy wiersz CSV to naglowek z nazwami kolumn.
         scan_count = $fscanf(input_fd, "%s\n", header_line);
 
+        // Naglowek CSV wynikowego.
         $fdisplay(csv_fd,
             "event_id,method_id,t1,A1,t2,A2,t3,A3,threshold,true_t0,expected_t0,t0_est,amax_est,error_vs_expected_ns,error_vs_true_ns,start_cycle,valid_cycle,latency_cycles,t0_raw,amax_raw,pass");
 
+        // Reset DUT.
         rst_n = 1'b0;
-        repeat (10) @(posedge clk);
+        repeat (RESET_CYCLES) @(posedge clk);
         rst_n = 1'b1;
-        repeat (5) @(posedge clk);
+        repeat (START_DELAY_CYCLES) @(posedge clk);
 
+        // Czytanie eventow z CSV.
+        // Format musi odpowiadac plikowi example_samples.csv:
+        // event_id,t1,A1,t2,A2,t3,A3,true_t0,true_amax,sigma_ns,tau_ns,
+        // threshold,charge,true_t_leading,true_t_trailing,true_tot
         while (!$feof(input_fd)) begin
             scan_count = $fscanf(input_fd,
                 "%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n",
-                event_count,
+                csv_event_id,
                 csv_t1,
                 csv_a1,
                 csv_t2,
@@ -299,8 +398,8 @@ module tb_leading_edge_core_csv;
                 csv_true_tot);
 
             if (scan_count == 16) begin
-                run_event_all_modes(
-                    event_count,
+                run_event_all_methods(
+                    csv_event_id,
                     csv_t1,
                     csv_a1,
                     csv_t2,
@@ -310,9 +409,12 @@ module tb_leading_edge_core_csv;
                     csv_true_t0,
                     csv_threshold);
                 event_count = event_count + 1;
+            end else if (scan_count != -1) begin
+                $display("WARNING: skipped malformed CSV row, fscanf returned %0d", scan_count);
             end
         end
 
+        // Zamkniecie plikow i podsumowanie w konsoli Vivado.
         repeat (10) @(posedge clk);
         $fclose(input_fd);
         $fclose(csv_fd);
