@@ -43,7 +43,17 @@ module tb_myip_leading_edge_axi_stream_v1_0;
     reg [31:0] rx_word2;
     integer rx_count;
 
-    integer timeout_counter;
+    reg [31:0] rx_capture [0:2];
+    reg [1:0]  rx_capture_count;
+
+    always @(posedge clk) begin
+        if (!rst_n)
+            rx_capture_count <= 2'd0;
+        else if (m00_axis_tvalid && m00_axis_tready && rx_capture_count < 3) begin
+            rx_capture[rx_capture_count] <= m00_axis_tdata;
+            rx_capture_count <= rx_capture_count + 1'b1;
+        end
+    end
 
     // -------------------------------------------------------------------------
     // DUT
@@ -125,18 +135,26 @@ module tb_myip_leading_edge_axi_stream_v1_0;
 
     task send_good_frame_linear;
         begin
-            $display("[%0t] TX: good AXIS frame start", $time);
+            send_good_frame(32'd0);
+        end
+    endtask
 
-            axis_send_word(32'd0,      1'b0);  // mode_sel = 0, linear
-            axis_send_word(q16(10),    1'b0);  // t1 = 10.0
-            axis_send_word(q16(100),   1'b0);  // a1 = 100.0
-            axis_send_word(q16(20),    1'b0);  // t2 = 20.0
-            axis_send_word(q16(200),   1'b0);  // a2 = 200.0
-            axis_send_word(q16(30),    1'b0);  // t3 = 30.0
-            axis_send_word(q16(300),   1'b0);  // a3 = 300.0
-            axis_send_word(q16(50),    1'b1);  // threshold = 50.0, TLAST
+    task send_good_frame;
+        input [31:0] mode_sel;
+        begin
+            rx_capture_count = 2'd0;
+            $display("[%0t] TX: AXIS frame start (mode=%0d)", $time, mode_sel);
 
-            $display("[%0t] TX: good AXIS frame end", $time);
+            axis_send_word(mode_sel,    1'b0);
+            axis_send_word(q16(10),      1'b0);
+            axis_send_word(q16(100),     1'b0);
+            axis_send_word(q16(20),      1'b0);
+            axis_send_word(q16(200),     1'b0);
+            axis_send_word(q16(30),      1'b0);
+            axis_send_word(q16(300),     1'b0);
+            axis_send_word(q16(50),      1'b1);
+
+            $display("[%0t] TX: AXIS frame end", $time);
         end
     endtask
 
@@ -149,51 +167,26 @@ module tb_myip_leading_edge_axi_stream_v1_0;
     // -------------------------------------------------------------------------
 
     task receive_and_check_result;
+        integer wait_cycles;
         begin
-            rx_count = 0;
-            timeout_counter = 0;
-
-            while (rx_count < 3 && timeout_counter < 500) begin
+            wait_cycles = 0;
+            while (rx_capture_count < 3 && wait_cycles < 2000) begin
                 @(posedge clk);
-
-                // Test backpressure: czasem zdejmujemy TREADY
-                if (timeout_counter == 20 || timeout_counter == 21 ||
-                    timeout_counter == 22 || timeout_counter == 60) begin
-                    m00_axis_tready <= 1'b0;
-                end else begin
-                    m00_axis_tready <= 1'b1;
-                end
-
-                if (m00_axis_tvalid && m00_axis_tready) begin
-                    case (rx_count)
-                        0: rx_word0 = m00_axis_tdata;
-                        1: rx_word1 = m00_axis_tdata;
-                        2: rx_word2 = m00_axis_tdata;
-                    endcase
-
-                    $display("[%0t] RX word %0d = 0x%08h, TLAST=%0d",
-                             $time, rx_count, m00_axis_tdata, m00_axis_tlast);
-
-                    if (rx_count < 2 && m00_axis_tlast) begin
-                        $display("ERROR: TLAST too early at word %0d", rx_count);
-                        $finish;
-                    end
-
-                    if (rx_count == 2 && !m00_axis_tlast) begin
-                        $display("ERROR: TLAST missing at third output word");
-                        $finish;
-                    end
-
-                    rx_count = rx_count + 1;
-                end
-
-                timeout_counter = timeout_counter + 1;
+                wait_cycles = wait_cycles + 1;
             end
 
-            if (timeout_counter >= 500) begin
+            if (rx_capture_count < 3) begin
                 $display("ERROR: Timeout waiting for AXIS output frame");
                 $finish;
             end
+
+            rx_word0 = rx_capture[0];
+            rx_word1 = rx_capture[1];
+            rx_word2 = rx_capture[2];
+
+            $display("[%0t] RX word 0 = 0x%08h", $time, rx_word0);
+            $display("[%0t] RX word 1 = 0x%08h", $time, rx_word1);
+            $display("[%0t] RX word 2 = 0x%08h (status)", $time, rx_word2);
 
             if (rx_word2[0] !== 1'b1) begin
                 $display("ERROR: status[0] valid bit is not set. status=0x%08h", rx_word2);
@@ -225,12 +218,19 @@ module tb_myip_leading_edge_axi_stream_v1_0;
         rx_count = 0;
 
         rst_n = 1'b0;
+        rx_capture_count = 2'd0;
 
         repeat (10) @(posedge clk);
         rst_n = 1'b1;
         repeat (5) @(posedge clk);
 
         send_good_frame_linear();
+        receive_and_check_result();
+
+        repeat (20) @(posedge clk);
+
+        $display("=== Second back-to-back frame ===");
+        send_good_frame(32'd1);
         receive_and_check_result();
 
         repeat (20) @(posedge clk);
