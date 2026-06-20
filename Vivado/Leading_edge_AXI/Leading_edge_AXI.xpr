@@ -89,23 +89,38 @@
   <FileSets Version="1" Minor="31">
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
       <Filter Type="Srcs"/>
-      <File Path="$PSRCDIR/sources_1/bd/leading_edge_axi_bd/leading_edge_axi_bd.bd">
+      <File Path="$PSRCDIR/sources_1/bd/leading_edge_axi_lite_bd/leading_edge_axi_lite_bd.bd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="leading_edge_axi_bd.bd" FileRelPathName="ip/leading_edge_axi_bd_leading_edge_ip_lite_0_0/leading_edge_axi_bd_leading_edge_ip_lite_0_0.xci">
-          <Proxy FileSetName="leading_edge_axi_bd_leading_edge_ip_lite_0_0"/>
-        </CompFileExtendedInfo>
+      </File>
+      <File Path="$PGENDIR/sources_1/bd/leading_edge_axi_lite_bd/hdl/leading_edge_axi_lite_bd_wrapper.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/bd/leading_edge_axi_bd/leading_edge_axi_bd.bd">
+        <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
         <CompFileExtendedInfo CompFileName="leading_edge_axi_bd.bd" FileRelPathName="ip/leading_edge_axi_bd_zynq_ultra_ps_e_0_0/leading_edge_axi_bd_zynq_ultra_ps_e_0_0.xci">
           <Proxy FileSetName="leading_edge_axi_bd_zynq_ultra_ps_e_0_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="leading_edge_axi_bd.bd" FileRelPathName="ip/leading_edge_axi_bd_rst_ps8_0_99M_0/leading_edge_axi_bd_rst_ps8_0_99M_0.xci">
-          <Proxy FileSetName="leading_edge_axi_bd_rst_ps8_0_99M_0"/>
+        <CompFileExtendedInfo CompFileName="leading_edge_axi_bd.bd" FileRelPathName="ip/leading_edge_axi_bd_leading_edge_ip_lite_0_0/leading_edge_axi_bd_leading_edge_ip_lite_0_0.xci">
+          <Proxy FileSetName="leading_edge_axi_bd_leading_edge_ip_lite_0_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="leading_edge_axi_bd.bd" FileRelPathName="ip/leading_edge_axi_bd_auto_pc_0/leading_edge_axi_bd_auto_pc_0.xci">
           <Proxy FileSetName="leading_edge_axi_bd_auto_pc_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="leading_edge_axi_bd.bd" FileRelPathName="ip/leading_edge_axi_bd_rst_ps8_0_99M_0/leading_edge_axi_bd_rst_ps8_0_99M_0.xci">
+          <Proxy FileSetName="leading_edge_axi_bd_rst_ps8_0_99M_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="leading_edge_axi_bd.bd" FileRelPathName="ip/leading_edge_axi_bd_auto_ds_0/leading_edge_axi_bd_auto_ds_0.xci">
           <Proxy FileSetName="leading_edge_axi_bd_auto_ds_0"/>
@@ -113,6 +128,7 @@
       </File>
       <File Path="$PGENDIR/sources_1/bd/leading_edge_axi_bd/hdl/leading_edge_axi_bd_wrapper.v">
         <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -120,8 +136,7 @@
       </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
-        <Option Name="TopModule" Val="leading_edge_axi_bd_wrapper"/>
-        <Option Name="TopAutoSet" Val="TRUE"/>
+        <Option Name="TopModule" Val="leading_edge_axi_lite_bd_wrapper"/>
       </Config>
     </FileSet>
     <FileSet Name="constrs_1" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
@@ -215,9 +230,7 @@
     </Run>
     <Run Id="leading_edge_axi_bd_leading_edge_ip_lite_0_0_synth_1" Type="Ft3:Synth" SrcSet="leading_edge_axi_bd_leading_edge_ip_lite_0_0" Part="xczu7ev-ffvc1156-2-e" ConstrsSet="leading_edge_axi_bd_leading_edge_ip_lite_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/leading_edge_axi_bd_leading_edge_ip_lite_0_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_leading_edge_ip_lite_0_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_leading_edge_ip_lite_0_0_synth_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2022">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2022"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -227,9 +240,7 @@
     </Run>
     <Run Id="leading_edge_axi_bd_zynq_ultra_ps_e_0_0_synth_1" Type="Ft3:Synth" SrcSet="leading_edge_axi_bd_zynq_ultra_ps_e_0_0" Part="xczu7ev-ffvc1156-2-e" ConstrsSet="leading_edge_axi_bd_zynq_ultra_ps_e_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/leading_edge_axi_bd_zynq_ultra_ps_e_0_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_zynq_ultra_ps_e_0_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_zynq_ultra_ps_e_0_0_synth_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2022">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2022"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -239,9 +250,7 @@
     </Run>
     <Run Id="leading_edge_axi_bd_rst_ps8_0_99M_0_synth_1" Type="Ft3:Synth" SrcSet="leading_edge_axi_bd_rst_ps8_0_99M_0" Part="xczu7ev-ffvc1156-2-e" ConstrsSet="leading_edge_axi_bd_rst_ps8_0_99M_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/leading_edge_axi_bd_rst_ps8_0_99M_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_rst_ps8_0_99M_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_rst_ps8_0_99M_0_synth_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2022">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2022"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -251,9 +260,7 @@
     </Run>
     <Run Id="leading_edge_axi_bd_auto_pc_0_synth_1" Type="Ft3:Synth" SrcSet="leading_edge_axi_bd_auto_pc_0" Part="xczu7ev-ffvc1156-2-e" ConstrsSet="leading_edge_axi_bd_auto_pc_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/leading_edge_axi_bd_auto_pc_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_auto_pc_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_auto_pc_0_synth_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2022">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2022"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -263,9 +270,7 @@
     </Run>
     <Run Id="leading_edge_axi_bd_auto_ds_0_synth_1" Type="Ft3:Synth" SrcSet="leading_edge_axi_bd_auto_ds_0" Part="xczu7ev-ffvc1156-2-e" ConstrsSet="leading_edge_axi_bd_auto_ds_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/leading_edge_axi_bd_auto_ds_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_auto_ds_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_auto_ds_0_synth_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2022">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2022"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -293,9 +298,7 @@
     </Run>
     <Run Id="leading_edge_axi_bd_leading_edge_ip_lite_0_0_impl_1" Type="Ft2:EntireDesign" Part="xczu7ev-ffvc1156-2-e" ConstrsSet="leading_edge_axi_bd_leading_edge_ip_lite_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="leading_edge_axi_bd_leading_edge_ip_lite_0_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_leading_edge_ip_lite_0_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_leading_edge_ip_lite_0_0_impl_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2022">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2022"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>
@@ -312,9 +315,7 @@
     </Run>
     <Run Id="leading_edge_axi_bd_zynq_ultra_ps_e_0_0_impl_1" Type="Ft2:EntireDesign" Part="xczu7ev-ffvc1156-2-e" ConstrsSet="leading_edge_axi_bd_zynq_ultra_ps_e_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="leading_edge_axi_bd_zynq_ultra_ps_e_0_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_zynq_ultra_ps_e_0_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_zynq_ultra_ps_e_0_0_impl_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2022">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2022"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>
@@ -331,9 +332,7 @@
     </Run>
     <Run Id="leading_edge_axi_bd_rst_ps8_0_99M_0_impl_1" Type="Ft2:EntireDesign" Part="xczu7ev-ffvc1156-2-e" ConstrsSet="leading_edge_axi_bd_rst_ps8_0_99M_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="leading_edge_axi_bd_rst_ps8_0_99M_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_rst_ps8_0_99M_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_rst_ps8_0_99M_0_impl_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2022">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2022"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>
@@ -350,9 +349,7 @@
     </Run>
     <Run Id="leading_edge_axi_bd_auto_pc_0_impl_1" Type="Ft2:EntireDesign" Part="xczu7ev-ffvc1156-2-e" ConstrsSet="leading_edge_axi_bd_auto_pc_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="leading_edge_axi_bd_auto_pc_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_auto_pc_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_auto_pc_0_impl_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2022">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2022"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>
@@ -369,9 +366,7 @@
     </Run>
     <Run Id="leading_edge_axi_bd_auto_ds_0_impl_1" Type="Ft2:EntireDesign" Part="xczu7ev-ffvc1156-2-e" ConstrsSet="leading_edge_axi_bd_auto_ds_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="leading_edge_axi_bd_auto_ds_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_auto_ds_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/leading_edge_axi_bd_auto_ds_0_impl_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2022">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2022"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>
