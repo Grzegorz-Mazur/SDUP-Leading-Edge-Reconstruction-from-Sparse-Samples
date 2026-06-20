@@ -1,7 +1,0 @@
-Running: xsim.dir/tb_leading_edge_core_csv_behav/xsimk.exe -simmode gui -wdb tb_leading_edge_core_csv_behav.wdb -simrunnum 0 -socket 49160
-Design successfully loaded
-Design Loading Memory Usage: 9568 KB (Peak: 9568 KB)
-Design Loading CPU Usage: 15 ms
-Simulation completed
-Simulation Memory Usage: 10580 KB (Peak: 10580 KB)
-Simulation CPU Usage: 62 ms

@@ -1,0 +1,79 @@
+# Vivado project: Leading_edge_core_TB
+#
+# Keep in git:
+#   - Leading_edge_core_TB.xpr
+#   - Leading_edge_core_TB.srcs/** source and simulation files
+#   - scripts/**
+#   - ip_repo/leading_edge_ip_lite/** packaged IP metadata/sources
+#
+# Ignore generated caches, logs, run products, hardware handoff products and
+# simulation output.
+
+# Vivado transient directories
+.Xil/
+*.cache/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+*.gen/
+
+# This project uses a packaged local IP repo. Keep the reusable IP, ignore only
+# generated cache/temp files that may appear inside it.
+ip_repo/**/*.log
+ip_repo/**/*.jou
+ip_repo/**/*.str
+ip_repo/**/.Xil/
+ip_repo/**/.cache/
+ip_repo/**/*.backup.*
+
+# Logs and journals
+*.log
+*.jou
+*.str
+*.debug
+*.backup.log
+*.backup.jou
+vivado_pid*.str
+webtalk*.log
+webtalk*.jou
+webtalk*.html
+
+# Reports and checkpoints
+*.rpt
+*.dcp
+*.xml
+!ip_repo/**/component.xml
+
+# Bitstream/export/programming outputs
+*.bit
+*.bin
+*.mcs
+*.ltx
+*.hwh
+*.xsa
+*.sysdef
+
+# Simulation products
+*.wdb
+*.vcd
+*.saif
+*.tcf
+xsim.dir/
+xsim*.jou
+xsim*.log
+xvlog*.log
+xelab*.log
+xelab.pb
+
+# Misc generated files
+*.pb
+*.wdf
+*.vdi
+*.zip
+*.html
+*.csv
+*.dat
+*.tmp
+*.bak
+hs_err_pid*

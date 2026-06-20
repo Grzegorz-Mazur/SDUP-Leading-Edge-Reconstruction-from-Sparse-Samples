@@ -1,0 +1,21 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"1.0",
+   "Default View_TopLeft":"-27,-53",
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.0r6  2020-01-29 bk=1.5227 VDI=41 GEI=36 GUI=JA:10.0 non-TLS
+#  -string -flagsOSRD
+preplace inst zynq_ultra_ps_e_0 -pg 1 -lvl 1 -x 330 -y 90 -defaultsOSRD
+preplace inst leading_edge_ip_lite_0 -pg 1 -lvl 3 -x 1060 -y 150 -defaultsOSRD
+preplace inst ps8_0_axi_periph -pg 1 -lvl 2 -x 800 -y 130 -defaultsOSRD
+preplace inst rst_ps8_0_99M -pg 1 -lvl 1 -x 330 -y 290 -defaultsOSRD
+preplace netloc rst_ps8_0_99M_peripheral_aresetn 1 1 2 650 250 950
+preplace netloc zynq_ultra_ps_e_0_pl_clk0 1 0 3 20 180 640 10 950J
+preplace netloc zynq_ultra_ps_e_0_pl_resetn0 1 0 2 30 190 630
+preplace netloc ps8_0_axi_periph_M00_AXI 1 2 1 N 130
+preplace netloc zynq_ultra_ps_e_0_M_AXI_HPM0_FPD 1 1 1 N 70
+levelinfo -pg 1 0 330 800 1060 1170
+pagesize -pg 1 -db -bbox -sgen 0 0 1170 390
+"
+}
+
