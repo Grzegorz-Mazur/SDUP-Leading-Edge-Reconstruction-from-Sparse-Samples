@@ -10,7 +10,6 @@
 # -----------------------------------------------------------------------------
 
 set project_dir [file normalize [pwd]]
-set src_dir     [file join $project_dir Leading_edge_core_TB.srcs sources_1 new]
 set ip_repo_dir [file join $project_dir ip_repo]
 set ip_dir      [file join $ip_repo_dir leading_edge_ip_lite]
 
@@ -18,6 +17,8 @@ file mkdir $ip_repo_dir
 file delete -force $ip_dir
 file mkdir $ip_dir
 
+# Package the current Vivado project.  Vivado imports the project sources into
+# the IP directory, so we do not add external file paths afterwards.
 ipx::package_project \
     -root_dir $ip_dir \
     -vendor user.org \
@@ -33,52 +34,23 @@ set_property display_name {Leading Edge IP Lite} $core
 set_property description {Leading-edge reconstruction core with AXI4-Lite control/status. AXI-Stream is intentionally not implemented in this milestone.} $core
 set_property version 1.0 $core
 
-foreach file_name {
-    leading_edge_math.vh
-    leading_edge_method_linear.v
-    leading_edge_method_exp.v
-    leading_edge_method_log.v
-    leading_edge_core.v
-    leading_edge_axi_lite_regs.v
-    leading_edge_ip_lite.v
-} {
-    ipx::add_file [file join $src_dir $file_name] [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects $core]
-    ipx::add_file [file join $src_dir $file_name] [ipx::get_file_groups xilinx_anylanguagebehavioralsimulation -of_objects $core]
-}
-
 set_property model_name leading_edge_ip_lite [ipx::get_file_groups xilinx_anylanguagesynthesis -of_objects $core]
 set_property model_name leading_edge_ip_lite [ipx::get_file_groups xilinx_anylanguagebehavioralsimulation -of_objects $core]
 
+# The initial package_project call already infers AXI-Lite, clock, reset and IRQ
+# interfaces.  Re-run AXI inference only to refresh the memory map after metadata
+# edits.  Avoid reset_rtl/clock_rtl here: Vivado 2022.1 does not expose the same
+# property names on those bus_interface objects in every installation.
 ipx::infer_bus_interfaces xilinx.com:interface:aximm_rtl:1.0 $core
-ipx::infer_bus_interfaces xilinx.com:interface:reset_rtl:1.0 $core
-ipx::infer_bus_interfaces xilinx.com:signal:clock_rtl:1.0 $core
 
-set axi_if [ipx::get_bus_interfaces S_AXI -of_objects $core]
+set axi_if [ipx::get_bus_interfaces s_axi -of_objects $core]
 if {[llength $axi_if] > 0} {
     set_property interface_mode slave $axi_if
-    set_property abstraction_type_vlnv xilinx.com:interface:aximm_rtl:1.0 $axi_if
-}
-
-set clk_if [ipx::get_bus_interfaces s_axi_aclk -of_objects $core]
-if {[llength $clk_if] > 0} {
-    set_property interface_mode slave $clk_if
-}
-
-set rst_if [ipx::get_bus_interfaces s_axi_aresetn -of_objects $core]
-if {[llength $rst_if] > 0} {
-    set_property interface_mode slave $rst_if
-    set_property polarity ACTIVE_LOW $rst_if
-}
-
-set irq_port [ipx::get_ports irq -of_objects $core]
-if {[llength $irq_port] > 0} {
-    set_property type interrupt $irq_port
 }
 
 ipx::update_checksums $core
 ipx::check_integrity $core
 ipx::save_core $core
-ipx::close_core $core
 
 set_property ip_repo_paths [list $ip_repo_dir] [current_project]
 update_ip_catalog

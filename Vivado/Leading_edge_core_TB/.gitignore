@@ -1,75 +1,79 @@
-#########################################################################################
-##  Project    : Collect of various scripts for working with EDA-tools (ASIC/FPGA/etc) ##
-##  Link       : https://github.com/iDoka/eda-scripts                                  ##
-##  Description: .gitignore                                                            ##
-##  Usage      : just rename or add contain to .gitignore                              ##
-##  License    : MIT                                                                   ##
-#########################################################################################
+# Vivado project: Leading_edge_core_TB
+#
+# Keep in git:
+#   - Leading_edge_core_TB.xpr
+#   - Leading_edge_core_TB.srcs/** source and simulation files
+#   - scripts/**
+#   - ip_repo/leading_edge_ip_lite/** packaged IP metadata/sources
+#
+# Ignore generated caches, logs, run products, hardware handoff products and
+# simulation output.
 
-## log files
+# Vivado transient directories
+.Xil/
+*.cache/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+*.gen/
+
+# This project uses a packaged local IP repo. Keep the reusable IP, ignore only
+# generated cache/temp files that may appear inside it.
+ip_repo/**/*.log
+ip_repo/**/*.jou
+ip_repo/**/*.str
+ip_repo/**/.Xil/
+ip_repo/**/.cache/
+ip_repo/**/*.backup.*
+
+# Logs and journals
 *.log
 *.jou
-*.rpt
-*.vdi
+*.str
+*.debug
+*.backup.log
+*.backup.jou
+vivado_pid*.str
+webtalk*.log
+webtalk*.jou
+webtalk*.html
 
-## bitstream
+# Reports and checkpoints
+*.rpt
+*.dcp
+*.xml
+!ip_repo/**/component.xml
+
+# Bitstream/export/programming outputs
 *.bit
 *.bin
 *.mcs
-*.svf
-*.image
+*.ltx
+*.hwh
+*.xsa
+*.sysdef
 
-## netlist
-*.edf
-*.edif
-*.vn
-*.vm
-
-## SDF
-*.sdf
-
-## sim dump
+# Simulation products
+*.wdb
 *.vcd
 *.saif
 *.tcf
-*.wdb
+xsim.dir/
+xsim*.jou
+xsim*.log
+xvlog*.log
+xelab*.log
+xelab.pb
 
-## others
-unisims
-
-## C-files
-*.elf
-*.a
-*.sa
-*.so
-*.lib
-
-## dirs
-Leading_edge_core_TB.cache/
-Leading_edge_core_TBe.hw/
-Leading_edge_core_TB.ip_user_files/
-Leading_edge_core_TB.runs/
-Leading_edge_core_TB.sim/
-
-###### for Xilinx Vivado|ISE
-.Xil/
-.cache/
-fsm_encoding.os
-tab_*/
-webtalk.*
-vivado_pid*.str
+# Misc generated files
+*.pb
+*.wdf
+*.vdi
+*.zip
+*.html
+*.csv
+*.dat
+*.tmp
+*.bak
 hs_err_pid*
-xelab.*
-xsim.*
-xvlog.*
-*.cache
-*.sim
-*.runs
-*.hw
-*.backup.*
-*.debug
-
-## checkpoint files
-*.dcp
-
-

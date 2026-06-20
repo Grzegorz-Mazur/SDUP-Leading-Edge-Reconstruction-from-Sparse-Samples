@@ -1,0 +1,66 @@
+# Vivado project: Leading_edge_AXI
+#
+# Keep in git:
+#   - Leading_edge_AXI.xpr
+#   - Leading_edge_AXI.srcs/sources_1/bd/** block design sources
+#   - scripts/**
+#
+# Ignore generated wrapper/output products. The project can regenerate them from
+# the BD or by rerunning scripts/create_leading_edge_axi_project.tcl.
+
+# Vivado transient directories
+.Xil/
+*.cache/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+*.gen/
+
+# Logs and journals
+*.log
+*.jou
+*.str
+*.debug
+*.backup.log
+*.backup.jou
+vivado_pid*.str
+webtalk*.log
+webtalk*.jou
+webtalk*.html
+
+# Reports and checkpoints
+*.rpt
+*.dcp
+*.xml
+
+# Bitstream/export/programming outputs
+*.bit
+*.bin
+*.mcs
+*.ltx
+*.hwh
+*.xsa
+*.sysdef
+
+# Simulation products
+*.wdb
+*.vcd
+*.saif
+*.tcf
+xsim.dir/
+xsim*.jou
+xsim*.log
+xvlog*.log
+xelab*.log
+xelab.pb
+
+# Misc generated files
+*.pb
+*.wdf
+*.vdi
+*.zip
+*.html
+*.tmp
+*.bak
+hs_err_pid*
