@@ -1,44 +1,51 @@
 # Leading Edge PMT Tester
 
-Prosta aplikacja okienkowa do generowania impulsu PMT, rekonstrukcji zbocza z rzadkich próbek i eksportu CSV dla FPGA.
+A simple desktop application for generating a PMT pulse, reconstructing its leading edge from sparse samples, and exporting CSV data for the FPGA.
 
-## Uruchomienie w Pythonie
+<img src="docs/tester_app.png" width="700">
+
+## Running with Python
 
 ```bash
 pip install -r requirements.txt
 python leading_edge_gui.py
 ```
 
-## Budowanie pliku `.exe` na Windows
+## Building the `.exe` File on Windows
 
-Kliknij dwukrotnie `build_exe.bat` albo uruchom:
+Double-click `build_exe.bat` or run:
 
 ```bat
 build_exe.bat
 ```
 
-Wynikowy plik będzie w:
+The resulting file will be located in:
 
 ```text
 dist\LeadingEdgeTester.exe
 ```
 
-## Format CSV
+## CSV Format
 
-Przycisk **Zapisz CSV dla FPGA** zapisuje plik zgodny ze starym generatorem `example_samples.csv`.
+The **Save CSV for FPGA** button saves a file compatible with the previous `example_samples.csv` generator.
 
-Kolejność kolumn jest dokładnie taka sama:
+The column order is exactly the same:
 
 ```text
 event_id,t1,A1,t2,A2,t3,A3,true_t0,true_amax,sigma_ns,tau_ns,threshold,charge,true_t_leading,true_t_trailing,true_tot
 ```
 
-Znaczenie pól:
+Field descriptions:
 
-- `t1,A1,t2,A2,t3,A3` — trzy pary próbek dla modelu / FPGA,
-- `true_t0` — referencyjny czas maksimum impulsu PMT,
-- `true_amax` oraz `charge` — referencyjna amplituda impulsu,
-- `sigma_ns`, `tau_ns`, `threshold` — parametry modelu PMT,
-- `true_t_leading`, `true_t_trailing`, `true_tot` — referencyjne wartości progu i time-over-threshold.
+- `t1,A1,t2,A2,t3,A3` — three sample pairs used by the model or FPGA,
+    
+- `true_t0` — reference time of the PMT pulse maximum,
+    
+- `true_amax` and `charge` — reference pulse amplitude,
+    
+- `sigma_ns`, `tau_ns`, `threshold` — PMT model parameters,
+    
+- `true_t_leading`, `true_t_trailing`, `true_tot` — reference threshold-crossing and time-over-threshold values.
+    
 
-Jeżeli w GUI wybrano więcej niż 3 próbki, eksport legacy zapisuje trzy reprezentatywne próbki: pierwszą, środkową i ostatnią. Jeżeli wybrano 2 próbki, kolumny `t3,A3` są uzupełniane zerami, żeby zachować zgodność nagłówka CSV.
+When more than three samples are selected in the GUI, the legacy export saves three representative samples: the first, middle, and last samples. When two samples are selected, the `t3,A3` columns are filled with zeros to maintain compatibility with the CSV header.
