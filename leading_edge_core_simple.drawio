@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-06-19T00:00:00.000Z" agent="Claude" version="24.7.8" type="device">
+  <diagram id="leading_edge_core_simple" name="leading_edge_core (simplified)">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- TITLE -->
+        <mxCell id="title" value="leading_edge_core &#8212; Q16.16, 6-stage pipeline" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1320" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ============ 4 MAIN BLOCKS ============ -->
+
+        <mxCell id="inputs" value="INPUTS&#10;&#10;clk, rst_n, start&#10;mode_sel&#10;t1,a1,t2,a2,t3,a3&#10;threshold" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;align=center;verticalAlign=middle;spacing=8;arcSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="140" width="220" height="220" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="pipeline" value="CALCULATION PIPELINE&#10;6 stages &#183; 6 clk latency&#10;&#10;1. compute differences&#10;2. slope + ln(a1,a2,a3)&#10;3. align / propagate&#10;4. method coefficients&#10;5. select t0 formula&#10;6. register output" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;align=center;verticalAlign=middle;spacing=8;arcSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="140" width="320" height="220" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="mode" value="METHOD SELECT&#10;(mode_sel, used in stage 5)&#10;&#10;00 &#8212; Linear&#10;01 &#8212; Exponential&#10;10 &#8212; Logarithmic&#10;else &#8212; overflow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;align=center;verticalAlign=middle;spacing=8;arcSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="800" y="140" width="240" height="220" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="outputs" value="OUTPUTS&#10;&#10;t0_est&#10;amax_est&#10;valid&#10;overflow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;align=center;verticalAlign=middle;spacing=8;arcSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="140" width="200" height="220" as="geometry"/>
+        </mxCell>
+
+        <!-- main arrows -->
+        <mxCell id="e1" value="start" style="endArrow=block;html=1;rounded=0;strokeWidth=3;fontSize=13;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="inputs" target="pipeline"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" value="ln1,ln2,ln3&#10;slope" style="endArrow=block;html=1;rounded=0;strokeWidth=3;fontSize=13;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="pipeline" target="mode"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" value="t0_est&#10;amax_est" style="endArrow=block;html=1;rounded=0;strokeWidth=3;fontSize=13;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="mode" target="outputs"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- valid bar -->
+        <mxCell id="validbar" value="valid signal travels through every stage in lock-step with the data (1 stage = 1 clock cycle)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=center;verticalAlign=middle;fontStyle=2;arcSize=15;" vertex="1" parent="1">
+          <mxGeometry x="40" y="410" width="1310" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ============ 3 FORMULA BOXES (simplified, just outcome) ============ -->
+
+        <mxCell id="flabel" value="What each method computes:" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="490" width="500" height="30" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="lin" value="LINEAR&#10;t0 = t1 &#8722; a1&#183;slope" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#666666;fontSize=13;align=center;verticalAlign=middle;spacing=8;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="530" width="280" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="exp" value="EXPONENTIAL&#10;t0 = t1 &#8722; &#964;&#183;(ln(a1) &#8722; ln(threshold))" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#666666;fontSize=13;align=center;verticalAlign=middle;spacing=8;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="360" y="530" width="320" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="log" value="LOGARITHMIC&#10;parabola fit through ln(a1),ln(a2),ln(a3)&#10;t0 = vertex of parabola" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#666666;fontSize=13;align=center;verticalAlign=middle;spacing=8;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="720" y="530" width="320" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ============ NOTE ============ -->
+
+        <mxCell id="note" value="Zasada działania: impuls start zatrzaskuje 3 próbki PMT (t,a) i próg. Dane przechodzą przez 6-stopniowy potok (1 cykl/etap), licząc równolegle wszystkie 3 metody. mode_sel wybiera, który wynik trafia na wyjście w ostatnim etapie. Po 6 cyklach: t0_est = zrekonstruowany czas przekroczenia progu, amax_est = a3 (amplituda najbliższej próbki szczytu)." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e2f0d9;strokeColor=#82b366;fontSize=13;align=left;verticalAlign=top;spacing=10;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="660" width="1310" height="110" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
