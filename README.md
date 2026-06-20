@@ -44,7 +44,8 @@ leading_edge_python_model_v2/
         └── pmt_model.py
 ```
 
-The Vivado project is located separately:
+
+### The Vivado project is located separately:
 
 ```text
 Vivado/Leading_Edge_Reconstruction/
@@ -58,6 +59,37 @@ Vivado/Leading_Edge_Reconstruction/
 │       └── new/
 │           └── TB_leading_edge.v
 └── Leading_Edge_Reconstruction.gen/
+```
+
+
+### There are also two applications to work with leading edge reconstruction model:
+
+#### Leading Edge Tester:
+```text
+leading_edge_tester/
+├── build_exe.bat
+├── leading_edge_gui.py
+├── LeadingEdgeTester.spec
+├── README.md
+├── requirements.txt
+├── docs/
+│   └── tester_app.png
+└── dist/
+    └── LeadingEdgeTester.exe
+```
+
+#### Leading Edge Viewer:
+```text
+leading_edge_viewer_app/
+├── build_exe.bat
+├── leading_edge_viewer.py
+├── LeadingEdgeViewer.spec
+├── README.md
+├── requirements.txt
+├── docs/
+│   └── viewer_app.png
+└── dist/
+    └── LeadingEdgeViewer.exe
 ```
 
 ---
