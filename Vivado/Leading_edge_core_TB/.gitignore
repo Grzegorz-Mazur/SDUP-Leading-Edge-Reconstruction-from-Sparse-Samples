@@ -45,11 +45,11 @@ unisims
 *.lib
 
 ## dirs
-leading_edge_core.cache/
-leading_edge_core.hw/
-leading_edge_core.ip_user_files/
-leading_edge_core.runs/
-leading_edge_core.sim/
+Leading_edge_core_TB.cache/
+Leading_edge_core_TBe.hw/
+Leading_edge_core_TB.ip_user_files/
+Leading_edge_core_TB.runs/
+Leading_edge_core_TB.sim/
 
 ###### for Xilinx Vivado|ISE
 .Xil/

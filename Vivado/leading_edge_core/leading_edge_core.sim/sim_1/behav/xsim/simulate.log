@@ -1,3 +1,0 @@
-Time resolution is 1 ps
-leading_edge_core simulation complete: 20 events, 60 PASS, 0 FAIL
-$finish called at time : 2645 ns : File "C:/Users/grzeg/Desktop/SDUP/Vivado/leading_edge_core/tb_leading_edge_core_csv.v" Line 423
