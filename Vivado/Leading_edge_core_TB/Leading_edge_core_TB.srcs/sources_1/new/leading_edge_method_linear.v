@@ -28,6 +28,9 @@ wire signed [31:0] slope_dt_per_amp;
 
 assign slope_dt_per_amp = (da21 != 32'sh0) ? q16_div(dt21, da21) : Q16_MAX;
 assign t0               = t1 - q16_mul(a1, slope_dt_per_amp);
-assign overflow         = (da21 == 32'sh0);
+
+// Keep legacy core behavior: linear mode saturates the slope on zero da21, but
+// does not assert the shared overflow output.
+assign overflow         = 1'b0;
 
 endmodule

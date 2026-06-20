@@ -26,9 +26,12 @@ module leading_edge_method_exp (
 wire signed [31:0] dln32;
 wire signed [31:0] tau;
 
-assign dln32   = ln_a3 - ln_a2;
-assign tau     = (dln32 != 32'sh0) ? q16_div(dt32, dln32) : Q16_MAX;
-assign t0      = t1 - q16_mul(tau, ln_a1 - ln_threshold);
-assign overflow = (dln32 == 32'sh0);
+assign dln32    = ln_a3 - ln_a2;
+assign tau      = (dln32 != 32'sh0) ? q16_div(dt32, dln32) : Q16_MAX;
+assign t0       = t1 - q16_mul(tau, ln_a1 - ln_threshold);
+
+// Keep legacy core behavior: exponential mode saturates tau on zero dln32, but
+// does not assert the shared overflow output.
+assign overflow = 1'b0;
 
 endmodule

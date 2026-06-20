@@ -13,7 +13,7 @@
 
 module tb_leading_edge_core_unit;
 
-`include "leading_edge_math.vh"
+`include "../../sources_1/new/leading_edge_math.vh"
 
 localparam integer CLOCK_PERIOD_NS = 10;
 localparam integer Q16_SCALE       = 65536;
@@ -230,7 +230,7 @@ task test_linear_method;
 
         m_da21 = tb_q16(0.0);
         #1;
-        expect_int("linear divide-by-zero overflow", linear_overflow, 1);
+        expect_int("linear divide-by-zero keeps legacy overflow low", linear_overflow, 0);
     end
 endtask
 
@@ -255,7 +255,7 @@ task test_exp_method;
 
         m_ln_a3 = m_ln_a2;
         #1;
-        expect_int("exponential zero dln overflow", exp_overflow, 1);
+        expect_int("exponential zero dln keeps legacy overflow low", exp_overflow, 0);
     end
 endtask
 
