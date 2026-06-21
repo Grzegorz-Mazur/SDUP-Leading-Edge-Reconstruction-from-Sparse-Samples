@@ -1,0 +1,130 @@
+<mxfile host="app.diagrams.net" agent="Codex">
+  <diagram id="sdup-vivado-structure" name="SDUP Vivado structure">
+    <mxGraphModel dx="2752" dy="1293" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=22;fontColor=#172B4D;" value="Struktura projektu SDUP w Vivado" vertex="1">
+          <mxGeometry height="40" width="760" x="420" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="root" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#172B4D;strokeColor=#0C1F33;fontColor=#FFFFFF;fontStyle=1;fontSize=18;" value="Vivado" vertex="1">
+          <mxGeometry height="60" width="220" x="680" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="core" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#EAF3FF;strokeColor=#1D6FD1;fontColor=#102A43;fontStyle=1;fontSize=15;" value="Projekt Core / Testbench&#xa;logika algorytmu + pakiet IP" vertex="1">
+          <mxGeometry height="70" width="370" x="80" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="axi" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#EAF7F0;strokeColor=#2E8B57;fontColor=#102A43;fontStyle=1;fontSize=15;" value="Projekt AXI / PYNQ&#xa;integracja IP + eksport sprzętu" vertex="1">
+          <mxGeometry height="70" width="370" x="1080" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="e-root-core" edge="1" parent="1" source="root" style="endArrow=block;html=1;rounded=0;strokeColor=#596A7A;strokeWidth=2;" target="core">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-root-axi" edge="1" parent="1" source="root" style="endArrow=block;html=1;rounded=0;strokeColor=#596A7A;strokeWidth=2;" target="axi">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="core-xpr" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFFFFF;strokeColor=#7AA7D9;fontColor=#102A43;" value="Projekt Vivado&#xa;Leading_edge_core_TB.xpr" vertex="1">
+          <mxGeometry height="60" width="260" x="-90" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="iprepo" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFFFFF;strokeColor=#7AA7D9;fontColor=#102A43;fontStyle=1;" value="Custom IP&#xa;leading_edge_ip_lite" vertex="1">
+          <mxGeometry height="70" width="260" x="80" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="component" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#F7FBFF;strokeColor=#B8D4F2;fontColor=#102A43;" value="Opis pakietu IP&#xa;component.xml" vertex="1">
+          <mxGeometry height="70" width="260" x="380" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="ip-src" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#F7FBFF;strokeColor=#B8D4F2;fontColor=#102A43;fontStyle=1;" value="Źródła HDL IP" vertex="1">
+          <mxGeometry height="50" width="260" x="80" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="core-files" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFFFFF;strokeColor=#B8D4F2;fontColor=#102A43;align=left;spacingLeft=12;" value="Główne moduły&#xa;leading_edge_core.v&#xa;leading_edge_ip_lite.v&#xa;leading_edge_axi_lite_regs.v&#xa;leading_edge_math.vh" vertex="1">
+          <mxGeometry height="110" width="300" x="380" y="675" as="geometry" />
+        </mxCell>
+        <mxCell id="method-files" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFFFFF;strokeColor=#B8D4F2;fontColor=#102A43;align=left;spacingLeft=12;" value="Metody obliczeń&#xa;leading_edge_method_linear.v&#xa;leading_edge_method_exp.v&#xa;leading_edge_method_log.v" vertex="1">
+          <mxGeometry height="100" width="300" x="60" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="core-sim-src" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFFFFF;strokeColor=#7AA7D9;fontColor=#102A43;" value="Symulacja" vertex="1">
+          <mxGeometry height="50" width="260" x="320" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="testbenches" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFFFFF;strokeColor=#B8D4F2;fontColor=#102A43;align=left;spacingLeft=12;" value="Testbenche&#xa;tb_leading_edge_core_csv.v&#xa;tb_leading_edge_core_unit.v&#xa;tb_leading_edge_ip_lite.v" vertex="1">
+          <mxGeometry height="100" width="310" x="600" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="axi-xpr" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFFFFF;strokeColor=#72B991;fontColor=#102A43;" value="Projekt Vivado&#xa;Leading_edge_AXI.xpr" vertex="1">
+          <mxGeometry height="60" width="250" x="1370" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="bd-src" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFFFFF;strokeColor=#72B991;fontColor=#102A43;fontStyle=1;" value="Block design" vertex="1">
+          <mxGeometry height="60" width="350" x="1030" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="bd-main" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#F1FFF7;strokeColor=#9AD3B0;fontColor=#102A43;" value="Pełny wariant AXI&#xa;leading_edge_axi_bd" vertex="1">
+          <mxGeometry height="70" width="260" x="930" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="bd-lite" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#F1FFF7;strokeColor=#9AD3B0;fontColor=#102A43;" value="Wariant AXI-Lite&#xa;leading_edge_axi_lite_bd" vertex="1">
+          <mxGeometry height="70" width="260" x="1230" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="axi-wrapper" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFFFFF;strokeColor=#72B991;fontColor=#102A43;" value="Eksport hardware&#xa;leading_edge_axi_bd_wrapper.xsa" vertex="1">
+          <mxGeometry height="70" width="340" x="1060" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="notebooks" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFFFFF;strokeColor=#72B991;fontColor=#102A43;align=left;spacingLeft=12;" value="PYNQ i raport&#xa;leading_edge_axi_lite_pynq.ipynb&#xa;leading_edge_axi_lite_offline_report.ipynb" vertex="1">
+          <mxGeometry height="90" width="390" x="1040" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="axi-data" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFFFFF;strokeColor=#72B991;fontColor=#102A43;" value="Dane testowe&#xa;example_samples.csv" vertex="1">
+          <mxGeometry height="70" width="180" x="820" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="e-core-xpr" edge="1" parent="1" source="core" style="endArrow=block;html=1;rounded=0;strokeColor=#7AA7D9;" target="core-xpr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-core-ip" edge="1" parent="1" source="core" style="endArrow=block;html=1;rounded=0;strokeColor=#7AA7D9;" target="iprepo">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-ip-component" edge="1" parent="1" source="iprepo" style="endArrow=block;html=1;rounded=0;strokeColor=#7AA7D9;" target="component">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-ip-src" edge="1" parent="1" source="iprepo" style="endArrow=block;html=1;rounded=0;strokeColor=#7AA7D9;" target="ip-src">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-src-corefiles" edge="1" parent="1" source="ip-src" style="endArrow=block;html=1;rounded=0;strokeColor=#7AA7D9;" target="core-files">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-src-methods" edge="1" parent="1" source="ip-src" style="endArrow=block;html=1;rounded=0;strokeColor=#7AA7D9;" target="method-files">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-core-srcs" edge="1" parent="1" source="core" style="endArrow=block;html=1;rounded=0;strokeColor=#7AA7D9;" target="core-sim-src">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-core-tbs" edge="1" parent="1" source="core-sim-src" style="endArrow=block;html=1;rounded=0;strokeColor=#7AA7D9;" target="testbenches">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-axi-xpr" edge="1" parent="1" source="axi" style="endArrow=block;html=1;rounded=0;strokeColor=#72B991;" target="axi-xpr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-axi-bd-src" edge="1" parent="1" source="axi" style="endArrow=block;html=1;rounded=0;strokeColor=#72B991;" target="bd-src">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-bd-main" edge="1" parent="1" source="bd-src" style="endArrow=block;html=1;rounded=0;strokeColor=#72B991;" target="bd-main">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-bd-lite" edge="1" parent="1" source="bd-src" style="endArrow=block;html=1;rounded=0;strokeColor=#72B991;" target="bd-lite">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-wrapper-main" edge="1" parent="1" source="bd-main" style="endArrow=block;html=1;rounded=0;strokeColor=#72B991;" target="axi-wrapper">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-wrapper-lite" edge="1" parent="1" source="bd-lite" style="endArrow=block;html=1;rounded=0;strokeColor=#72B991;" target="axi-wrapper">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-notebooks" edge="1" parent="1" source="axi-wrapper" style="endArrow=block;html=1;rounded=0;strokeColor=#72B991;" target="notebooks">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-data-notebooks" edge="1" parent="1" source="axi-data" style="endArrow=block;html=1;rounded=0;strokeColor=#72B991;" target="notebooks">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-ip-to-bd" edge="1" parent="1" style="endArrow=block;html=1;rounded=0;dashed=1;dashPattern=8 4;strokeColor=#C25100;fontColor=#C25100;fontStyle=1;" value="custom IP uzywany w BD">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="345" y="450.00434782608676" as="sourcePoint" />
+            <mxPoint x="1235" y="527.395652173913" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFF7E6;strokeColor=#FFAB00;fontColor=#172B4D;align=left;spacingLeft=12;" value="Niebieski: core, testbench, pakiet IP&#xa;Zielony: AXI, block design, PYNQ&#xa;Szary: pliki generowane przez Vivado" vertex="1">
+          <mxGeometry height="80" width="330" x="610" y="980" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
